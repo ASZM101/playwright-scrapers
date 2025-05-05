@@ -1,2 +1,2 @@
-# playwright-scrapers
+# Playwright Scrapers
 Open-source web scraping programs created with the Playwright library on Python
