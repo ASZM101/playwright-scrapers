@@ -11,3 +11,14 @@ def run(playwright, url, take_screenshot):
         print("Screenshot saved as screenshot.png")
     
     browser.close() # Close browser
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2: # Ensures all required arguments are given
+        print("Usage: python main.py <url> [--screenshot]")
+        sys.exit(1)
+        
+    url = sys.argv[1]
+    take_screenshot = '--screenshot' in sys.argv
+
+    with sync_playwright() as playwright:
+        run(playwright, url, take_screenshot)
