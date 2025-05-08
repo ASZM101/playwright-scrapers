@@ -1,3 +1,5 @@
+# Takes screenshot of one webpage (if screenshot flag enabled); otherwise, saves all text content of webpage
+
 import sys # Import modules
 import re
 from playwright.sync_api import sync_playwright
