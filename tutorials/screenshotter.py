@@ -40,7 +40,7 @@ if __name__ == "__main__":
         print("Usage: python main.py <url> [--screenshot]")
         sys.exit(1)
         
-    url = sys.argv[1]
+    url = sys.argv[1] # sys.argv[0] is anme of script itself
     take_screenshot = '--screenshot' in sys.argv
 
     with sync_playwright() as playwright:
