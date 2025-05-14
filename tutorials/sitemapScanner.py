@@ -1,7 +1,7 @@
-# Scans sitemap of website and prepares CSV file with all found links
+# Scans sitemap of website and prepares CSV file with all found links; WIP (doesn't work properly yet)
 
 import requests
-from bs4 import Beautiful as Soup
+from bs4 import BeautifulSoup as Soup
 import os
 import csv
 
@@ -18,7 +18,7 @@ def parse_sitemap(url, csv_filename="urls.csv"):
     if response.status_code != 200: # If response status is not 200 (ok)
         return False
     
-    soup = Soup(response.content, "xml") # Parse XML content of response
+    soup = Soup(response.content, "lxml") # Parse XML content of response
 
     for sitemap in soup.find_all("sitemap"): # Recursively parse nested sitemaps
         loc = sitemap.find("loc").text
@@ -39,7 +39,7 @@ def parse_sitemap(url, csv_filename="urls.csv"):
     file_exists = os.path.isfile(os.path.join(root, csv_filename)) # Check if file already exists
 
     with open(os.path.join(root, csv_filename), "a+", newline="") as csvfile: # Append data to CSV file
-        write = csv.write(csvfile)
+        writer = csv.writer(csvfile)
         if not file_exists: # Write header only if file doesn't exist
             writer.writerow(ATTRS)
         writer.writerows(rows)
