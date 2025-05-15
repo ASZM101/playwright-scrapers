@@ -1,4 +1,4 @@
-# Finds scholarships on scholarship site using provided credentials and parameters/filters; WIP
+# Finds scholarships on Going Merry (scholarship site) using provided credentials and parameters/filters
 
 import yaml
 from urllib.parse import urlencode, urljoin
@@ -28,31 +28,19 @@ class Scholarship:
     recipients: str
     deadline: str
 
-def login(page, email, password, headless): # Log in to scholarship site using provided credentials (need to set up config.yaml first)
-    page.goto("https://app.goingmerry.com/sign-in") # Go to scholarship site login page
+def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to set up config.yaml first)
+    page.goto("https://app.goingmerry.com/sign-in") # Go to Going Merry login page
     page.wait_for_load_state("load")
 
     # Fill in login credentials
-    page.wait_for_timeout(3000) # Wait for 3 sec to ensure page has loaded
     page.get_by_placeholder("Email").click()
     page.get_by_placeholder("Email").fill(email)
     page.get_by_placeholder("Password").click()
     page.get_by_placeholder("Password").fill(password)
-
-    page.get_by_text("Sign in").click() # Click login btn
+    
+    page.get_by_text("Sign in", exact=True).click() # Click login btn
+    page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
     page.wait_for_load_state("load")
-
-    if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
-        logger.warning("CAPTCHA page: Human interventions is required")
-        while True: # Polling loop to check if CAPTCHA is solved
-            if "checkpoint/challenge" not in page.url:
-                logger.info("CAPTCHA solved. Continuing with the rest of the process...")
-                break
-            page.wait_for_timeout(2000) # Wait 2 sec before polling again
-        page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
-    else:
-        logger.error("CAPTCHA page: Aborting due to headless mode...")
-        sys.exit(1)
 
 def scrape_scholarships(page, params): # Scrape scholarship listings based on provided search parameters (include in config.yaml)
     base_url = "https://app.goingmerry.com/awards"
@@ -62,23 +50,33 @@ def scrape_scholarships(page, params): # Scrape scholarship listings based on pr
 
     page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
+    page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
 
     cards = page.locator("div.widget-award-wrapper")
     for i in range(cards.count()): # Loop through scholarship listings
         card = cards.nth(i)
         card.click()
-        page.wait_for_timeout(3000) # Wait 3 sec while scholarship card loads
+        page.wait_for_timeout(2000) # Wait 2 sec while scholarship preview loads
+        preview = page.locator("div.MuiPaper-root.MuiDialog-paper.widget-award-preview-dialog__paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthMd.MuiPaper-elevation24.MuiPaper-rounded")
+        response = Selector(text=preview.inner_html())
         info = Scholarship(
-            url=card.locator("a.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.gm-button.variant-secondary.size-medium.margins.bottom-10.MuiButton-disableElevation.MuiButton-fullWidth").get_attribute("href"),
-            title=card.locator("#award-name").text_content(),
-            org=card.locator("h5.neutral-color.margins top-2").text_content(),
-            amount=card.locator("div.award-quick-action-box.card.white.z-depth-1").locator("h2").text_content(),
-            recipients=card.locator("div.award-quick-action-box.card.white.z-depth-1").locator("b").text_content(),
-            deadline=card.locator("div.award-quick-action-box.card.white.z-depth-1").locator("p.blue-grey-text").text_content()
+            url=response.css("a.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.gm-button.variant-secondary.size-medium.margins.bottom-10.MuiButton-disableElevation.MuiButton-fullWidth ::attr(href)").get() if response.css("a.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.gm-button.variant-secondary.size-medium.margins.bottom-10.MuiButton-disableElevation.MuiButton-fullWidth ::attr(href)").get() else None,
+            
+            title=response.css("#award-name ::text").get() if response.css("#award-name ::text").get() else None,
+            
+            org=response.css("h5.neutral-color.margins.top-2 ::text").get() if response.css("h5.neutral-color.margins.top-2 ::text").get() else None,
+            
+            amount=response.css("div.award-quick-action-box.card.white.z-depth-1 h2 ::text").get() if response.css("div.award-quick-action-box.card.white.z-depth-1 h2 ::text").get() else None,
+            
+            recipients=response.css("div.award-quick-action-box.card.white.z-depth-1 b ::text").get() if response.css("div.award-quick-action-box.card.white.z-depth-1 b ::text").get() else None,
+            
+            deadline=response.css("div.award-quick-action-box.card.white.z-depth-1 p.blue-grey-text ::text").get() if response.css("div.award-quick-action-box.card.white.z-depth-1 p.blue-grey-text ::text").get() else None
         ) # Scrapes details of each scholarship
         scholarship_list.append(info)
         logger.info(f"Scraped scholarship: {info.title}")
-        if i >= 5: # Stops scraping once 5 scholarships found (can be changed, good starting point)
+        page.get_by_text("Close", exact=True).click() # Click close btn
+        page.wait_for_timeout(1000) # Wait for 1 sec to account for lagginess in closing card
+        if i == 4: # Stops scraping once 5 scholarships found (can be changed, good starting point)
             break
     
     return scholarship_list
@@ -100,7 +98,7 @@ def main(config, headless):
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
 
-        login(page, email, password, headless) # Log in to scholarship site
+        login(page, email, password, headless) # Log in to Going Merry
 
         all_scholarships = []
         for params in params_list:
