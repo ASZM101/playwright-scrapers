@@ -1,4 +1,4 @@
-# Scans sitemap of website and prepares CSV file with all found links; WIP (doesn't work properly yet)
+# Scans sitemap of website and prepares CSV file with all found links; WIP (csv created is blank)
 
 import requests
 from bs4 import BeautifulSoup as Soup
@@ -18,7 +18,7 @@ def parse_sitemap(url, csv_filename="urls.csv"):
     if response.status_code != 200: # If response status is not 200 (ok)
         return False
     
-    soup = Soup(response.content, "lxml") # Parse XML content of response
+    soup = Soup(response.content, "lxml") # Parse XML content of response; originally used xml, switched to lxml to resolve bs4.exceptions.FeatureNotFound error
 
     for sitemap in soup.find_all("sitemap"): # Recursively parse nested sitemaps
         loc = sitemap.find("loc").text
