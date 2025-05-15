@@ -33,6 +33,7 @@ def login(page, email, password, headless): # Log in to scholarship site using p
     page.wait_for_load_state("load")
 
     # Fill in login credentials
+    page.wait_for_timeout(3000) # Wait for 3 sec to ensure page has loaded
     page.get_by_placeholder("Email").click()
     page.get_by_placeholder("Email").fill(email)
     page.get_by_placeholder("Password").click()
