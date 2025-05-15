@@ -42,7 +42,7 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
     page.wait_for_load_state("load")
 
-def scrape_scholarships(page, params): # Scrape scholarship listings based on provided search parameters (include in config.yaml)
+def scrape_scholarships(max, page, params): # Scrape scholarship listings based on provided search parameters (include in config.yaml)
     base_url = "https://app.goingmerry.com/awards"
     url = f"{base_url}?eg=mat,par&{urlencode(params)}"
 
@@ -76,17 +76,18 @@ def scrape_scholarships(page, params): # Scrape scholarship listings based on pr
         logger.info(f"Scraped scholarship: {info.title}")
         page.get_by_text("Close", exact=True).click() # Click close btn
         page.wait_for_timeout(1000) # Wait for 1 sec to account for lagginess in closing card
-        if i == 4: # Stops scraping once 5 scholarships found (can be changed, good starting point)
+        if i == max - 1: # Stops scraping once max scholarships found
             break
     
     return scholarship_list
 
 # Define CLI to use click for scraping process
 @click.command()
+@click.option("--max", default=5, help="Specify a maximum number of scholarships to scrape")
 @click.option("--config", type=click.Path(exists=True), default="config.yaml", help="Path to the YAML config file")
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
-def main(config, headless):
+def main(max, config, headless):
     with open("config.yaml", "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
 
@@ -102,8 +103,8 @@ def main(config, headless):
 
         all_scholarships = []
         for params in params_list:
-            logger.info(f"Crawl starting... Params: {params}")
-            scholarships = scrape_scholarships(page, params)
+            logger.info(f"Initiating search... Params: {params}")
+            scholarships = scrape_scholarships(max, page, params)
             all_scholarships.extend(scholarships)
         
         df = pd.DataFrame([scholarship.__dict__ for scholarship in all_scholarships]) # Create DataFrame from combined scholarships
