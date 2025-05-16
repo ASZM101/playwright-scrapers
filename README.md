@@ -38,7 +38,7 @@ Before running this program, ensure you have the following installed:
 
 3. Open a terminal or command prompt, and navigate to the root directory of the cloned repository
 
-4. Run the `scholarship_finder.py` with the following command:
+4. Run the `scholarship_finder.py` script with the following command:
 
    ```
    python3 scholarship_finder.py
