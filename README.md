@@ -44,10 +44,14 @@ Before running this program, ensure you have the following installed:
    python3 scholarship_finder.py
    ```
 
-   By default, the maximum scholarships scraped is 5, the configuration file path is `config.yaml`, and the program runs in headless mode. If you want to specify the maximum number of scholarships to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command (replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`; choose either `--headless` or `--no-headless`):
+   By default, the maximum scholarships scraped is 5, the configuration file path is `config.yaml`, and the program runs in headless mode.
+   
+   If you want to specify the maximum number of scholarships to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
 
    ```
    python3 scholarship_finder.py --max MAX_SCHOLARSHIPS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
    ```
+
+   (Replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless`)
 
 5. Wait for the script to finish running, and open the `scholarships_data.csv` file to review all of the scraped scholarships
