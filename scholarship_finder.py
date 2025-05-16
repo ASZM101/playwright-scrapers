@@ -44,7 +44,7 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
 
 def scrape_scholarships(max, page, params): # Scrape scholarship listings based on provided search parameters (include in config.yaml)
     base_url = "https://app.goingmerry.com/awards"
-    url = f"{base_url}?eg=mat,par&{urlencode(params)}"
+    url = f"{base_url}?{urlencode(params)}"
 
     scholarship_list = [] # List for storing scholarship data
 

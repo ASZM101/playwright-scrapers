@@ -1,0 +1,7 @@
+# Template for scholarship finder
+email: GOING_MERRY_EMAIL # Replace with your own email
+password: GOING_MERRY_PASSWORD # Replace with your own password
+params: # Use unique key for each params entry
+    - SEARCH1: # The following params are highly recommended to find revelent scholarships
+        eg: mat # Only display scholarships with high match for eligibility
+        hide: COS # Hide college-specific scholarships

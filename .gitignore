@@ -1,3 +1,3 @@
 .DS_Store
-tutorials/config.yaml
-config.yaml
+my_config.yaml
+*.csv
