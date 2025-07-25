@@ -1,8 +1,0 @@
-# Template for college searcher
-email: GOING_MERRY_EMAIL # Replace with your own email
-password: GOING_MERRY_PASSWORD # Replace with your own password
-params: # Include as many of these params for each entry as desired; careful with indentation
-    # The following params are intended to be the least restrictive, serving as a starting point for a broad search
-    - gmMajorName: All%20majors # Display colleges offering any major
-      orderColumn: value # Order the results by Going Merry's value score
-      orderType: desc # Sort the results in descending order

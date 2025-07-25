@@ -1,0 +1,12 @@
+# Template for job finder
+email: LINKEDIN_EMAIL # Replace with your own email
+password: LINKEDIN_PASSWORD # Replace with your own password
+params: # Include as many of these params for each entry as desired; careful with indentation
+  - keywords: KEYWORD_1 KEYWORD_2
+    location: CITY_NAME
+    currentJobId: JOB_ID # If looking for specific job (found in URL)
+    geoId: GEO_ID # If looking for specific location (found in URL)
+  - keywords: KEYWORD_3
+    location: CITY_NAME
+    currentJobId: JOB_ID # If looking for specific job (found in URL)
+    geoId: GEO_ID # If looking for specific location (found in URL)
