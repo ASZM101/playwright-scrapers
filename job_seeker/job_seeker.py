@@ -62,18 +62,22 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
-        details = Selector(text=page.locator("div.jobs-search__job-details--wrapper"))
+        listingSelector = Selector(text=listing.inner_html())
+        detailSelector = Selector(text=page.locator("div.jobs-search__job-details--wrapper").inner_html())
         listing.locator("a").click()
+
+        logger.info("https://www.linkedin.com" + quote(detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None)
+
         info = Job(
-            url = "https://www.linkedin.com" + quote(details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None,
+            url = "https://www.linkedin.com" + quote(detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None,
 
-            job_title = details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() if details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() else None,
+            job_title = detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() else None,
 
-            job_id = listing.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() if listing.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() else None,
+            job_id = listingSelector.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() if listingSelector.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() else None,
 
-            company_name = details.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() if details.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() else None,
+            company_name = detailSelector.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() if detailSelector.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() else None,
 
-            job_location = listing.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() if listing.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() else None
+            job_location = listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() if listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() else None
         ) # Scrapes details of each job
         job_list.append(info)
         logger.info(f"Scraped job: {info.job_title} at {info.company_name}")
@@ -139,21 +143,24 @@ def main(max, config, headless, last24h):
 
         login(page, email, password, headless) # Login to LinkedIn
 
-        scrape_jobs(max, page, params_list, last24h) # Still need to remove this, just for testing, still need to replace params_list with params
-
         # Still need to uncomment this, just testing login
-        # all_jobs = []
+        all_jobs = []
         # for params in params_list:
         #     logger.info(f"Crawl starting... Params: {params}")
-        #     jobs = scrape_jobs(page, params, last24h)
+        #     jobs = scrape_jobs(max, page, params, last24h)
         #     all_jobs.extend(jobs)
+
+        # Still need to remove this, just for testing
+        logger.info(f"Initiating search...") # Still need to add params
+        jobs = scrape_jobs(max, page, params_list, last24h) # Still need to replace params_list with params
+        all_jobs.extend(jobs)
         
-        # df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
+        df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
 
-        # csv_file_path = 'jobs_data.csv'
-        # df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
+        csv_file_path = 'jobs_data.csv' # Still need to figure out why not collecting all info and links are wrong
+        df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
-        # logger.info(f"Scraped {len(all_jobs)} jobs and saved to jobs_data.csv") # Log the number of jobs scraped and saved
+        logger.info(f"Scraped {len(all_jobs)} jobs and saved to jobs_data.csv") # Log the number of jobs scraped and saved
 
         browser.close()
 
