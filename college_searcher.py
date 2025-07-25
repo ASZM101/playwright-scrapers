@@ -65,7 +65,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 
             rates = selector.css("p.rates ::text").get() if selector.css("p.rates ::text").get() else None,
 
-            cost = selector.css("span.cost-text ::text").get() if selector.css("span.cost-text ::text").get() else None
+            cost = selector.css("span.cost-text ::text").get() + "/yr" if selector.css("span.cost-text ::text").get() else None
         ) # Scrapes details of each college
         college_list.append(info)
         logger.info(f"Scraped college: {info.name}")
