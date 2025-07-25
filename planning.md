@@ -17,7 +17,6 @@
 - ✅ Take screenshot of outputs of all scrapers together (main screenshot)
 
 ## College Searcher
-- Fix bug with url encoding
 - MVP plan
     - **Find**: Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal, **_later_**)
         - Input full name of college into search bar
