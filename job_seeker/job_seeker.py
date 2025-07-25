@@ -65,8 +65,10 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
         listing.locator("a").click()
-        page.wait_for_timeout(2000) # Still need to remove, just for testing
-        # Still need to figure out why manual scrolling needed, also collect info
+        page.wait_for_timeout(2000) # Still need to remove, just for testing (or maybe needed?)
+        page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
+        page.wait_for_timeout(2000) # Still need to remove, just for testing (or maybe needed?)
+        # Still need to collect info
 
     # Still need to uncomment or replace
     # while True:

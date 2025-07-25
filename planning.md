@@ -10,6 +10,8 @@
 ## General Updates
 - Take new screenshot with outputs of all scrapers together, upload to #cdn and bay
 - Create video combining demos of all scrapers, upload to YouTube and bay
+- Enable scrolling in all scrapers
+- Implement way to access multiple pages (stops when pages run out or max reached, whichever comes first)
 - Allow user to specify what details they want to collect with each scraper (explain options available in readme)
 - Update readme with options for all possible URL params for each scraper
 - Add comments to explain what each imported library/module is for in each Python file
