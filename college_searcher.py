@@ -51,7 +51,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
     page.wait_for_load_state("load")
     page.wait_for_timeout(10000) # Wait 10 sec to ensure page loads
 
-    # Still need to iterate through results max times (WIP)
+    # Still need to iterate through results max times (WIP, currently only completing 1/5)
     cards = page.locator("div.college-list")
     for i in range(cards.count()): # Loop through colleges
         card = cards.nth(i)
@@ -65,7 +65,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 
             rates = selector.css("p.rates ::text").get() if selector.css("p.rates ::text").get() else None,
 
-            cost = selector.css("span.cost-text").get() + "/yr" if selector.css("span.cost-text").get() else None
+            cost = selector.css("span.cost-text ::text").get() if selector.css("span.cost-text ::text").get() else None
         ) # Scrapes details of each college
         college_list.append(info)
         logger.info(f"Scraped college: {info.name}")
