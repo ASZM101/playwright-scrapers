@@ -41,13 +41,17 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
 
 def explore_colleges(max, page, params): # Scrape info about colleges based on provided search parameters (include in colleges_config.yaml)
     base_url = "https://app.goingmerry.com/colleges"
+    url = f"{base_url}?{urlencode(params)}"
 
     college_list = [] # List for storing college info
 
-    page.goto(base_url) # Go to search results page, still need to replace with url once params added
+    page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
-    logger.info(f"Explore Colleges page loaded successfully")
+
+    # Still need to iterate through results max times
+
+    return college_list
 
 # Define CLI to use click for scraping process
 @click.command()
@@ -70,7 +74,17 @@ def main(max, config, headless):
         login(page, email, password, headless) # Log in to Going Merry
 
         all_colleges = []
-        explore_colleges(max, page, params_list) # Still need to replace params_list with params (once params_list not empty and can iterate through params)
+        for params in params_list:
+            logger.info(f"Initiating search... Params: {params}")
+            colleges = explore_colleges(max, page, params)
+            all_colleges.extend(colleges)
+
+        df = pd.DataFrame([college.__dict__ for college in all_colleges]) # Create DataFrame from combined colleges
+
+        csv_file_path = 'colleges_data.csv'
+        df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
+
+        logger.info(f"Scraped {len(all_colleges)} colleges and saved to colleges_data.csv")
 
         browser.close()
 

@@ -9,6 +9,7 @@
 
 ## General Updates
 - Take screenshot of outputs of all scrapers together (main screenshot)
+- Allow user to specify what details they want to collect with each scraper (explain options available in readme)
 - Restructure folders
     - Make each scraper have its own folder with Python, YAML, screenshot, and recording files
     - Update all file paths in Python files and readme instructions
