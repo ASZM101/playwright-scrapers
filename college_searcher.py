@@ -57,7 +57,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
         card = cards.nth(i)
         selector = Selector(text=card.inner_html())
         info = College(
-            url = base_url + selector.css("a.college-name ::atr(href)").get() if selector.css("a.college-name ::atr(href)").get() else None,
+            url = base_url + selector.css("a.college-name ::attr(href)").get() if selector.css("a.college-name ::attr(href)").get() else None,
 
             name = selector.css("a.college-name ::text").get() if selector.css("a.college-name ::text").get() else None,
 
