@@ -20,11 +20,11 @@
 - ✅ Add table of contents
 
 ## College Searcher
-- Based on scholarship finder
-    - **Explore**: Find information on colleges that meet criteria provided by user (more similar to scholarships, **_start here_**)
-        - Apply parameters provided by user
-        - Collect info from each college
-        - Add info to CSV
+- ✅ Based on scholarship finder
+    - ✅ **Explore**: Find information on colleges that meet criteria provided by user (more similar to scholarships, **_start here_**)
+        - ✅ Apply parameters provided by user
+        - ✅ Collect info from each college
+        - ✅ Add info to CSV
     - **Find**: Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal, **_later_**)
         - Input full name of college into search bar
         - Collect info from each college
@@ -33,14 +33,13 @@
     - Mode specified as flag (WIP)
         - Option 1: True/false flag where one mode is true and other is false
         - Option 2: 2 flags, one for each mode
-- Create new YAML template file
-    - Login credentials (both modes, required)
+- ✅ Create new YAML template file
+    - ✅ Login credentials (both modes, required)
     - Specific details to collect about each college (both modes, optional)
-    - URL parameters (only explore, required)
+    - ✅ URL parameters (only explore, required)
     - Full names of colleges (only find, required)
     - Specific details to collect about each college
-- Update readme with info about college searcher (need to update if both modes finished)
-    - Options for details to collect
+- ✅ Update readme with info about college searcher (need to update once both modes finished)
     - ✅ Overall description
     - ✅ Technical requirements
     - ✅ How to run
