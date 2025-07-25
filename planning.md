@@ -13,11 +13,11 @@
     - Add info to CSV
     - Have failsafe in case university name mistyped or not available on platform
 - Potential college database platforms (ensure any user can create free account)
-    - Niche (checked)
-    - Going Merry (checked)
-    - College Vine (checked)
-    - CollegeXpress (checked)
-    - Appily (checked)
+    - Going Merry (uses URL params)
+    - Niche
+    - College Vine
+    - CollegeXpress
+    - Appily
 - Create new YAML files (private and template)
     - Info for user to input
         - List of universities (full name)
@@ -30,6 +30,7 @@
     - Technical requirements
     - How to run
     - Options for details to collect
+    - Table of contents
 - Create "experienceable build"
     - Record video of college searcher in action
     - Take screenshot of college searcher alone

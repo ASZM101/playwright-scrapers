@@ -1,0 +1,1 @@
+# Collects information from colleges on Going Merry (scholarship and college database) using provided credentials and parameters/filters

@@ -1,4 +1,4 @@
-# Finds scholarships on Going Merry (scholarship site) using provided credentials and parameters/filters
+# Finds scholarships on Going Merry (scholarship and college database) using provided credentials and parameters/filters
 
 import yaml
 from urllib.parse import urlencode, urljoin
