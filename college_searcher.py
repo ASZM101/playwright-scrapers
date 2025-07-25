@@ -51,9 +51,8 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
     page.wait_for_load_state("load")
     page.wait_for_timeout(10000) # Wait 10 sec to ensure page loads
 
-    # Still need to iterate through results max times (WIP, currently only completing 1/5)
-    cards = page.locator("div.college-list")
-    for i in range(cards.count()): # Loop through colleges
+    cards = page.locator("div.college-card")
+    for i in range(cards.count()): # Loop through college results
         card = cards.nth(i)
         selector = Selector(text=card.inner_html())
         info = College(
@@ -77,8 +76,8 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 # Define CLI to use click for scraping process
 @click.command()
 @click.option("--max", default=5, help="Specify a maximum number of colleges to scrape")
-@click.option("--config", type=click.Path(exists=True), default="my_config.yaml", help="Path to the YAML config file") # Still need to change default to colleges_config.yaml (at end)
-@click.option("--headless/--no-headless", default=False, help="Run the browser in headless mode or not") # Still need to change default to False (at end)
+@click.option("--config", type=click.Path(exists=True), default="colleges_config.yaml", help="Path to the YAML config file")
+@click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
 def main(max, config, headless):
     with open(config, "r") as f: # Load YAML file with list of search params
@@ -105,7 +104,7 @@ def main(max, config, headless):
         csv_file_path = 'colleges_data.csv'
         df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
-        logger.info(f"Scraped {len(all_colleges)} colleges and saved to colleges_data.csv")
+        logger.info(f"Scraped {len(all_colleges)} colleges and saved to colleges_data.csv") # Log the number of colleges scraped and saved
 
         browser.close()
 
