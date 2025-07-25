@@ -23,7 +23,9 @@ logging.getLogger().handlers = [rich_handler]
 class College:
     url: str
     name: str
-    # Still need to add specific details to collect, maybe defaults for now, user-specified later
+    location: str
+    rates: str
+    cost: str
 
 def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up colleges_config.yaml first)
     page.goto("https://app.goingmerry.com/sign-in") # Go to Going Merry login page
@@ -49,15 +51,34 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
 
-    # Still need to iterate through results max times
+    # Still need to iterate through results max times (WIP)
+    cards = page.locator("div.college-list")
+    for i in range(cards.count()): # Loop through colleges
+        card = cards.nth(i)
+        selector = Selector(text=card.inner_html())
+        info = College(
+            url = base_url + selector.css("a.college-name ::atr(href)").get() if selector.css("a.college-name ::atr(href)").get() else None,
+
+            name = selector.css("a.college-name ::text").get() if selector.css("a.college-name ::text").get() else None,
+
+            location = selector.css("div.location-year-wrapper span ::text").get() if selector.css("div.location-year-wrapper span ::text").get() else None,
+
+            rates = selector.css("p.rates ::text").get() if selector.css("p.rates ::text").get() else None,
+
+            cost = selector.css("span.cost-text").get() + "/yr" if selector.css("span.cost-text").get() else None
+        ) # Scrapes details of each college
+        college_list.append(info)
+        logger.info(f"Scraped college: {info.name}")
+        if i == max - 1: # Stops scraping once max scholarships found
+            break
 
     return college_list
 
 # Define CLI to use click for scraping process
 @click.command()
 @click.option("--max", default=5, help="Specify a maximum number of colleges to scrape")
-@click.option("--config", type=click.Path(exists=True), default="my_config.yaml", help="Path to the YAML config file") # Still need to change default to colleges_config.yaml
-@click.option("--headless/--no-headless", default=False, help="Run the browser in headless mode or not") # Still need to change default to False
+@click.option("--config", type=click.Path(exists=True), default="my_config.yaml", help="Path to the YAML config file") # Still need to change default to colleges_config.yaml (at end)
+@click.option("--headless/--no-headless", default=False, help="Run the browser in headless mode or not") # Still need to change default to False (at end)
 
 def main(max, config, headless):
     with open(config, "r") as f: # Load YAML file with list of search params

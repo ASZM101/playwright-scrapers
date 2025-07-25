@@ -15,6 +15,7 @@
     - Update all file paths in Python files and readme instructions
 - Update readme with options for all possible URL params for each scraper
 - Add comments to explain what each imported library/module is for in each Python file
+- Enable scraping programs to search in multiple pages
 - Test all scrapers as external user (starting with downloading repo from GitHub)
 - ✅ Add table of contents
 
