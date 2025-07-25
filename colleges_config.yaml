@@ -1,4 +1,4 @@
 # Template for college searcher
 email: GOING_MERRY_EMAIL # Replace with your own email
 password: GOING_MERRY_PASSWORD # Replace with your own password
-# params: # Include as many of these params for each entry as desired; careful with indentation
+params: # Include as many of these params for each entry as desired; careful with indentation

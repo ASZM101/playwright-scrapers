@@ -38,25 +38,40 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
     page.get_by_text("Sign in", exact=True).click() # Click login btn
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
     page.wait_for_load_state("load")
-    logger.info(f"Login successful") # Still need to remove this, just testing
+
+def explore_colleges(max, page, params): # Scrape info about colleges based on provided search parameters (include in colleges_config.yaml)
+    base_url = "https://app.goingmerry.com/colleges"
+
+    college_list = [] # List for storing college info
+
+    page.goto(base_url) # Go to search results page, still need to replace with url once params added
+    page.wait_for_load_state("load")
+    page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
+    logger.info(f"Explore Colleges page loaded successfully")
 
 # Define CLI to use click for scraping process
 @click.command()
+@click.option("--max", default=5, help="Specify a maximum number of colleges to scrape")
 @click.option("--config", type=click.Path(exists=True), default="my_config.yaml", help="Path to the YAML config file") # Still need to change default to colleges_config.yaml
 @click.option("--headless/--no-headless", default=False, help="Run the browser in headless mode or not") # Still need to change default to False
 
-def main(config, headless):
+def main(max, config, headless):
     with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
     
     email = data.get("email")
     password = data.get("password")
-    # Still need to add params
+    params_list = data.get("params")
 
     with sync_playwright() as p: # Start browser
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
+
         login(page, email, password, headless) # Log in to Going Merry
+
+        all_colleges = []
+        explore_colleges(max, page, params_list) # Still need to replace params_list with params (once params_list not empty and can iterate through params)
+
         browser.close()
 
 if __name__ == '__main__':
