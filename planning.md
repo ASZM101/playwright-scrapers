@@ -26,13 +26,13 @@
     - Overall description
     - Technical requirements
     - How to run
-- MVP plan
-    - Apply parameters provided by user
-    - Collect info from each job listing
-    - Add info to CSV
-- Create YAML template file (separate from personal file)
-    - Login credentials (required)
-    - URL parameters (default is just example)
+- ✅ MVP plan
+    - ✅ Apply parameters provided by user
+    - ✅ Collect info from each job listing
+    - ✅ Add info to CSV
+- ✅ Create YAML template file (separate from personal file)
+    - ✅ Login credentials (required)
+    - ✅ URL parameters (default includes examples of params)
 - Create experienceable build
     - Record video of job seeker in action
     - Take screenshot of job seeker alone
