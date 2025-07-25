@@ -8,6 +8,7 @@
 - ✅ Scholarship finder (MVP done)
 
 ## General Updates
+- Ensure comments are consistent in all scrapers
 - Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
 - Add more logger info updates throughout each process (especially useful for headless mode)
 - Enable scrolling in all scrapers
@@ -22,10 +23,10 @@
 - ✅ Create video combining demos of all scrapers, upload to YouTube and bay
 
 ## Job Seeker
-- Update readme with info about job seeker
-    - Overall description
-    - Technical requirements
-    - How to run
+- ✅ Update readme with info about job seeker
+    - ✅ Overall description
+    - ✅ Technical requirements
+    - ✅ How to run
 - ✅ MVP plan
     - ✅ Apply parameters provided by user
     - ✅ Collect info from each job listing

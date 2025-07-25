@@ -12,6 +12,8 @@
 ### Table of Contents
 - [College Searcher](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher)
 
+- [Job Seeker](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#job-seeker)
+
 - [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
 
 ## College Searcher
@@ -65,6 +67,58 @@ Before running this program, ensure you have the following installed:
     (Replace `MAX_COLLEGES` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`)
 
 5. Wait for the script to finish running, and open the `colleges_data.csv` file to review all of the scraped colleges
+
+## Job Seeker
+
+Discover **jobs** on [LinkedIn](https://www.linkedin.com/) (a platform with an extensive database of job listings) by using the `job_seeker.py` script to:
+
+1. Log in to your account on LinkedIn
+
+2. Apply search parameters to filter the results
+
+3. Scrape job details, storing the data in a CSV file
+
+### Technical Requirements
+
+Before running this program, ensure you have the following installed:
+
+- Python 3.x
+
+- `playwright-sync` library
+
+- `scrapy` library
+
+- `pandas` library
+
+- `rich` library
+
+- `click` library
+
+### How to Run
+
+1. Clone this repository, and open it in your favorite IDE
+
+2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com/) login credentials and desired search parameters using the provided template
+
+3. Open a terminal or command prompt, and navigate to the `job_seeker` directory of the cloned repository
+
+4. Run the `job_seeker.py` script with the following command:
+
+    ```bash
+    python3 job_seeker.py
+    ```
+
+    By default, the maximum jobs scraped is 5, the configuration file path is `jobs_config.yaml`, and the program runs in headless mode.
+
+    If you want to specify the maximum number of jobs to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
+
+    ```bash
+    python3 job_seeker.py --max MAX_JOBS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
+    ```
+
+    (Replace `MAX_JOBS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless)
+
+5. Wait for the script to finish running, and open the `jobs_data.csv` file to review all of the scraped jobs
 
 ## Scholarship Finder
 
