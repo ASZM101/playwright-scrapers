@@ -60,14 +60,12 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
-    # Still need to figure out why first result is collected twice, job location isn't collected in any of them, and job id is only collected for first result
+    # Still need to figure out why first result details collected twice, job location isn't collected in any of them
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
         listingSelector = Selector(text=listing.inner_html())
         detailSelector = Selector(text=page.locator("div.jobs-search__job-details--wrapper").inner_html())
         listing.locator("a").click()
-
-        logger.info("https://www.linkedin.com" + quote(detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None)
 
         info = Job(
             job_title = detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() else None,
