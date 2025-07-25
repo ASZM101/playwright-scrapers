@@ -49,7 +49,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 
     page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
-    page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
+    page.wait_for_timeout(10000) # Wait 10 sec to ensure page loads
 
     # Still need to iterate through results max times (WIP)
     cards = page.locator("div.college-list")
