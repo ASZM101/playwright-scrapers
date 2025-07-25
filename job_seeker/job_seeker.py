@@ -63,48 +63,52 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     global PAGE_NUMBER
     main_url = "https://www.linkedin.com/jobs/"
     base_url = "https://www.linkedin.com/jobs/search/"
-    url = f"{base_url}?{urlencode(params)}"
+    # url = f"{base_url}?{urlencode(params)}" Still need to uncomment this
 
     job_list = [] # List for storing job data
 
-    page.goto(url) # Go to search results page
+    page.goto(base_url) # Go to search results page, still need to replace arg with url
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
 
-    if last24h: # Apply "last 24 hours" filter if requested
-        page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
-        page.locator("label").filter(has_text="Past 24 hours").click()
-        pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
-        page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
+    logger.info(f"Successfully navigated to job search page") # Still need to remove this, only for testing
+
+    # Still need to ensure only one element is selected (currently resolves to 2)
+    # if last24h: # Apply "last 24 hours" filter if requested
+    #     page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
+    #     page.locator("label").filter(has_text="Past 24 hours").click()
+    #     pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
+    #     page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
     
-    while True:
-        page.locator("div.jobs-search-results-list").click()
-        for _ in range(15): # Loop through job listings (underscore is throwaway var)
-            page.mouse.wheel(0, 250)
-        page.wait_for_timeout(10000) # Wait for 10 sec before quitting
-        response = Selector(text=page.content())
+    # Still need to uncomment
+    # while True:
+    #     page.locator("div.jobs-search-results-list").click()
+    #     for _ in range(15): # Loop through job listings (underscore is throwaway var)
+    #         page.mouse.wheel(0, 250)
+    #     page.wait_for_timeout(10000) # Wait for 10 sec before quitting
+    #     response = Selector(text=page.content())
         
-        jobs = response.css("ul.scaffold-layout__list-container li.ember-view")
-        for job in jobs: # Scrapes details of each job
-            job_info = Job(
-                url=urljoin(main_url, job.css("a::attr(href)").get()) if job.css("a::attr(href)").get() else None,
-                job_title=job.css("a::attr(aria-label)").get(),
-                job_id=job.css("::attr(data-occludable-job-id)").get(),
-                company_name=" ".join(job.css("img ::attr(alt)").get().split(" ")[2::]) if job.css("img ::attr(alt)").get() else None,
-                company_image=job.css("img ::attr(src)").get(),
-                job_location=" ".join(job.css(".job-card-container__metadata-item ::text").getall()) if job.css(".job-card-container__metadata-item ::text").get() else None
-            )
-            job_list.append(job_info)
-            logger.info(f"Scraped job: {job_info.job_title}")
+    #     jobs = response.css("ul.scaffold-layout__list-container li.ember-view")
+    #     for job in jobs: # Scrapes details of each job
+    #         job_info = Job(
+    #             url=urljoin(main_url, job.css("a::attr(href)").get()) if job.css("a::attr(href)").get() else None,
+    #             job_title=job.css("a::attr(aria-label)").get(),
+    #             job_id=job.css("::attr(data-occludable-job-id)").get(),
+    #             company_name=" ".join(job.css("img ::attr(alt)").get().split(" ")[2::]) if job.css("img ::attr(alt)").get() else None,
+    #             company_image=job.css("img ::attr(src)").get(),
+    #             job_location=" ".join(job.css(".job-card-container__metadata-item ::text").getall()) if job.css(".job-card-container__metadata-item ::text").get() else None
+    #         )
+    #         job_list.append(job_info)
+    #         logger.info(f"Scraped job: {job_info.job_title}")
         
-        try: # Check if there is "Next" btn to click it
-            PAGE_NUMBER += 1
-            page.get_by_role("button", name=f"Page {PAGE_NUMBER}", exact=True).click(timeout=4000)
-            page.wait_for_timeout(3000) # Wait 3 sec for next page to load
-            logger.info(f"Moving to page {PAGE_NUMBER}")
-        except Exception: # Finished scraping
-            logger.warning("No more pages to scrape")
-            break
+    #     try: # Check if there is "Next" btn to click it
+    #         PAGE_NUMBER += 1
+    #         page.get_by_role("button", name=f"Page {PAGE_NUMBER}", exact=True).click(timeout=4000)
+    #         page.wait_for_timeout(3000) # Wait 3 sec for next page to load
+    #         logger.info(f"Moving to page {PAGE_NUMBER}")
+    #     except Exception: # Finished scraping
+    #         logger.warning("No more pages to scrape")
+    #         break
     
     PAGE_NUMBER = 1
     return job_list
@@ -128,6 +132,8 @@ def main(config, headless, last24h):
         page = browser.new_page()
 
         login(page, email, password, headless) # Login to LinkedIn
+
+        scrape_jobs(page, params_list, last24h) # Still need to remove this, just for testing, still need to replace params_list with params
 
         # Still need to uncomment this, just testing login
         # all_jobs = []
