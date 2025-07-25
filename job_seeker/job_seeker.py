@@ -58,11 +58,11 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
 def scrape_jobs(max, page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     global PAGE_NUMBER
     base_url = "https://www.linkedin.com/jobs/search/"
-    # url = f"{base_url}?{urlencode(params)}" Still need to uncomment this
+    url = f"{base_url}?{urlencode(params)}"
 
     job_list = [] # List for storing job data
 
-    page.goto(base_url) # Go to search results page, still need to replace arg with url
+    page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     if last24h: # Apply "last 24 hours" filter if requested
@@ -120,18 +120,11 @@ def main(max, config, headless, last24h):
         page = browser.new_page()
 
         login(page, email, password, headless) # Login to LinkedIn
-
-        # Still need to uncomment this, just testing login
         all_jobs = []
-        # for params in params_list:
-        #     logger.info(f"Crawl starting... Params: {params}")
-        #     jobs = scrape_jobs(max, page, params, last24h)
-        #     all_jobs.extend(jobs)
-
-        # Still need to remove this, just for testing
-        logger.info(f"Initiating search...") # Still need to add params
-        jobs = scrape_jobs(max, page, params_list, last24h) # Still need to replace params_list with params
-        all_jobs.extend(jobs)
+        for params in params_list:
+            logger.info(f"Initiating... Params: {params}")
+            jobs = scrape_jobs(max, page, params, last24h)
+            all_jobs.extend(jobs)
         
         df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
 
