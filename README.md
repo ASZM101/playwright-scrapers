@@ -39,7 +39,7 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `config.yaml` file in the root directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the provided template
+2. Open the `scholarships_config.yaml` file in the root directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the provided template
 
 3. Open a terminal or command prompt, and navigate to the root directory of the cloned repository
 
@@ -49,7 +49,7 @@ Before running this program, ensure you have the following installed:
    python3 scholarship_finder.py
    ```
 
-   By default, the maximum scholarships scraped is 5, the configuration file path is `config.yaml`, and the program runs in headless mode.
+   By default, the maximum scholarships scraped is 5, the configuration file path is `scholarships_config.yaml`, and the program runs in headless mode.
    
    If you want to specify the maximum number of scholarships to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
 
