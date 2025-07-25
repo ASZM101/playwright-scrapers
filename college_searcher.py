@@ -1,7 +1,7 @@
 # Collects information from colleges on Going Merry (scholarship and college database) using provided credentials and parameters/filters
 
 import yaml
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode, urljoin, quote
 from playwright.sync_api import sync_playwright
 from scrapy import Selector
 from dataclasses import dataclass
@@ -57,7 +57,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
         card = cards.nth(i)
         selector = Selector(text=card.inner_html())
         info = College(
-            url = base_url + selector.css("a.college-name ::attr(href)").get() if selector.css("a.college-name ::attr(href)").get() else None,
+            url = "https://app.goingmerry.com" + quote(selector.css("a.college-name ::attr(href)").get()) if selector.css("a.college-name ::attr(href)").get() else None,
 
             name = selector.css("a.college-name ::text").get() if selector.css("a.college-name ::text").get() else None,
 
