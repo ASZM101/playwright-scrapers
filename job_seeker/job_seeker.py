@@ -122,7 +122,7 @@ def main(max, config, headless, last24h):
         login(page, email, password, headless) # Login to LinkedIn
         all_jobs = []
         for params in params_list:
-            logger.info(f"Initiating... Params: {params}")
+            logger.info(f"Initiating search... Params: {params}")
             jobs = scrape_jobs(max, page, params, last24h)
             all_jobs.extend(jobs)
         
