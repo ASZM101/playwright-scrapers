@@ -9,6 +9,11 @@
     <img src="https://hackatime-badge.hackclub.com/U07DMCJTB8Q/playwright-scrapers" alt="Hackatime Badge">
 </div>
 
+### Table of Contents
+- [College Searcher](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher)
+
+- [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
+
 ## College Searcher
 
 Explore **colleges** on [Going Merry](https://goingmerry.com/) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:

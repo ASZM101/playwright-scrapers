@@ -28,7 +28,7 @@ class Scholarship:
     recipients: str
     deadline: str
 
-def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to set up scholarships_config.yaml first)
+def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up scholarships_config.yaml first)
     page.goto("https://app.goingmerry.com/sign-in") # Go to Going Merry login page
     page.wait_for_load_state("load")
 
