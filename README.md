@@ -54,15 +54,15 @@ Before running this program, ensure you have the following installed:
     python3 college_searcher.py
     ```
 
-    By default, the configuration file path is `colleges_config.yaml`, and the program runs in headless mode.
+    By default, the maximum colleges scraped is 5, the configuration file path is `colleges_config.yaml`, and the program runs in headless mode.
 
-    If you want to specify the path to the YAML configuration file and/or whether the program runs in headless mode, run the following command:
+    If you want to specify the maximum number of colleges to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
 
     ```bash
-    python3 college_searcher.py --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
+    python3 college_searcher.py --max MAX_COLLEGES --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
     ```
 
-    (Replace `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`)
+    (Replace `MAX_COLLEGES` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`)
 
 5. Wait for the script to finish running, and open the `colleges_data.csv` file to review all of the scraped colleges
 
