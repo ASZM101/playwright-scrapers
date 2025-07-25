@@ -55,26 +55,23 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     page.goto(base_url) # Go to search results page, still need to replace arg with url
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
-
-    # Still need to ensure only one element is selected (currently resolves to 2)
     if last24h: # Apply "last 24 hours" filter if requested
         page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
         page.locator('label[for="advanced-filter-timePostedRange-r86400"]').filter(has_text="Past 24 hours").click()
-
-        # Still need to debug and uncomment
-        # pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
-        # page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
-
-        page.wait_for_timeout(2000) # Still need to remove, just for testing
         page.locator('button[data-test-reusables-filters-modal-show-results-button="true"]').click()
-
-        # Still need to remove, just for testing
-        page.wait_for_timeout(2000)
-        logger.info(f"Successfully applied last 24h filter")
+        page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     
-    # Still need to uncomment
+    results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
+    for i in range(results.count()): # Loop through job listings
+        listing = results.nth(i)
+        listing.locator("a").click()
+        page.wait_for_timeout(2000) # Still need to remove, just for testing
+        # Still need to figure out why manual scrolling needed, also collect info
+
+    # Still need to uncomment or replace
     # while True:
     #     page.locator("div.jobs-search-results-list").click()
+    #     logger.info(f"Found results div")
     #     for _ in range(15): # Loop through job listings (underscore is throwaway var)
     #         page.mouse.wheel(0, 250)
     #     page.wait_for_timeout(10000) # Wait for 10 sec before quitting
