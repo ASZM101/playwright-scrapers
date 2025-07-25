@@ -60,7 +60,6 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
-    # Still need to figure out why job location and company name are not collected in any of them
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
         listing.locator("a").click() # More for visual effect when in no-headless mode; could be useful for collecting more info in future
@@ -69,20 +68,20 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         info = Job(
             job_title = selector.css("div.artdeco-entity-lockup__title strong ::text").get() if selector.css("div.artdeco-entity-lockup__title strong ::text").get() else None,
 
-            company_name = selector.css("div.artdeco-entity-lockup__subtitle span ::text").get() if selector.css("div.artdeco-entity-lockup__subtitle span ::text").get() else None,
+            company_name = selector.css("div.artdeco-entity-lockup__subtitle span").get() if selector.css("div.artdeco-entity-lockup__subtitle span").get() else None, # Still need to figure out why not collecting this
 
-            job_location = selector.css("div.artdeco-entity-lockup__caption span ::text").get() if selector.css("div.artdeco-entity-lockup__caption span ::text").get() else None,
+            job_location = selector.css("div.artdeco-entity-lockup__caption span").get() if selector.css("div.artdeco-entity-lockup__caption span").get() else None, # Still need to figure out why not collecting this
 
             job_id = selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None,
 
             url = "https://www.linkedin.com/jobs/view/" + selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None
         ) # Scrapes details of each job
         job_list.append(info)
-        logger.info(f"Scraped job: {info.job_title} at {info.company_name}")
+        logger.info(f"Scraped job: {info.job_title} at {info.company_name} in {info.job_location}") # Still need to remove location
 
-        page.wait_for_timeout(1000) # Wait for 1 sec to ensure job details load
+        page.wait_for_timeout(500) # Wait for 0.5 sec to ensure job details load
         page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
-        page.wait_for_timeout(1000) # Wait for 2 sec to ensure job details load
+        page.wait_for_timeout(500) # Wait for 0.5 sec to ensure job details load
 
         if i == max - 1: # Stops scraping once max jobs found
             break
