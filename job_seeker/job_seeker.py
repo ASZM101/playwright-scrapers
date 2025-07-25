@@ -65,11 +65,13 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
     page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
-    if last24h: # Apply "last 24 hours" filter if requested
+    if last24h: # Apply "Past 24 hours" filter if requested
+        logger.info('Applying "Past 24 hours" filter...')
         page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
         page.locator('label[for="advanced-filter-timePostedRange-r86400"]').filter(has_text="Past 24 hours").click()
         page.locator('button[data-test-reusables-filters-modal-show-results-button="true"]').click()
         page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
+        logger.info('Successfully applied filter.')
     
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
     for i in range(results.count()): # Loop through job listings
@@ -119,7 +121,10 @@ def main(max, config, headless, last24h):
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
 
+        logger.info("Logging in to Going Merry...")
         login(page, email, password, headless) # Login to LinkedIn
+        logger.info("Successfully logged in.")
+
         all_jobs = []
         for params in params_list:
             logger.info(f"Initiating search... Params: {params}")

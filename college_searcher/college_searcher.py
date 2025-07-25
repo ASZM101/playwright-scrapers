@@ -91,7 +91,9 @@ def main(max, config, headless):
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
 
+        logger.info("Logging in to Going Merry...")
         login(page, email, password, headless) # Log in to Going Merry
+        logger.info("Successfully logged in.")
 
         all_colleges = []
         for params in params_list:
