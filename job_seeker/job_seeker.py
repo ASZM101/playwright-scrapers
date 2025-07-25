@@ -1,4 +1,4 @@
-# Finds jobs on LinkedIn using provided credentials and parameters/filters; WIP (only found one of two jobs searched before encountering TimeoutError when changing page, unable to retry due to CAPTCHA in both headless and not headless, still need to remove this once done)
+# Finds jobs on LinkedIn (job database) using provided credentials and parameters/filters
 
 import yaml
 from urllib.parse import urlencode, urljoin, quote
@@ -80,16 +80,16 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         info = Job(
             job_title = selector.css("div.artdeco-entity-lockup__title strong ::text").get() if selector.css("div.artdeco-entity-lockup__title strong ::text").get() else None,
 
-            company_name = selector.css("div.artdeco-entity-lockup__subtitle span").get() if selector.css("div.artdeco-entity-lockup__subtitle span").get() else None, # Still need to figure out why not collecting this
+            company_name = listing.locator("div.artdeco-entity-lockup__subtitle span").inner_text() if listing.locator("div.artdeco-entity-lockup__subtitle span").inner_text() else None,
 
-            job_location = selector.css("div.artdeco-entity-lockup__caption span").get() if selector.css("div.artdeco-entity-lockup__caption span").get() else None, # Still need to figure out why not collecting this
+            job_location = listing.locator("div.artdeco-entity-lockup__caption span").inner_text() if listing.locator("div.artdeco-entity-lockup__caption span").inner_text() else None,
 
             job_id = selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None,
 
             url = "https://www.linkedin.com/jobs/view/" + selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if selector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None
         ) # Scrapes details of each job
         job_list.append(info)
-        logger.info(f"Scraped job: {info.job_title} at {info.company_name} in {info.job_location}") # Still need to remove location
+        logger.info(f"Scraped job: {info.job_title} at {info.company_name} in {info.job_location}")
 
         page.wait_for_timeout(500) # Wait for 0.5 sec to ensure job details load
         page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
@@ -99,37 +99,6 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
             break
     
     return job_list
-
-    # Still need to uncomment or delete
-    # while True:
-    #     page.locator("div.jobs-search-results-list").click()
-    #     logger.info(f"Found results div")
-    #     for _ in range(15): # Loop through job listings (underscore is throwaway var)
-    #         page.mouse.wheel(0, 250)
-    #     page.wait_for_timeout(10000) # Wait for 10 sec before quitting
-    #     response = Selector(text=page.content())
-        
-    #     jobs = response.css("ul.scaffold-layout__list-container li.ember-view")
-    #     for job in jobs: # Scrapes details of each job
-    #         job_info = Job(
-    #             url=urljoin(main_url, job.css("a::attr(href)").get()) if job.css("a::attr(href)").get() else None,
-    #             job_title=job.css("a::attr(aria-label)").get(),
-    #             job_id=job.css("::attr(data-occludable-job-id)").get(),
-    #             company_name=" ".join(job.css("img ::attr(alt)").get().split(" ")[2::]) if job.css("img ::attr(alt)").get() else None,
-    #             company_image=job.css("img ::attr(src)").get(),
-    #             job_location=" ".join(job.css(".job-card-container__metadata-item ::text").getall()) if job.css(".job-card-container__metadata-item ::text").get() else None
-    #         )
-    #         job_list.append(job_info)
-    #         logger.info(f"Scraped job: {job_info.job_title}")
-        
-    #     try: # Check if there is "Next" btn to click it
-    #         PAGE_NUMBER += 1
-    #         page.get_by_role("button", name=f"Page {PAGE_NUMBER}", exact=True).click(timeout=4000)
-    #         page.wait_for_timeout(3000) # Wait 3 sec for next page to load
-    #         logger.info(f"Moving to page {PAGE_NUMBER}")
-    #     except Exception: # Finished scraping
-    #         logger.warning("No more pages to scrape")
-    #         break
 
 # Define CLI to use click for scraping process
 @click.command()
@@ -166,7 +135,7 @@ def main(max, config, headless, last24h):
         
         df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
 
-        csv_file_path = 'jobs_data.csv' # Still need to figure out why not collecting all info and links are wrong
+        csv_file_path = 'jobs_data.csv'
         df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
         logger.info(f"Scraped {len(all_jobs)} jobs and saved to jobs_data.csv") # Log the number of jobs scraped and saved

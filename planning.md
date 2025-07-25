@@ -10,6 +10,7 @@
 ## General Updates
 - Take new screenshot with outputs of all scrapers together, upload to #cdn and bay
 - Create video combining demos of all scrapers, upload to YouTube and bay
+- Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
 - Enable scrolling in all scrapers
 - Implement way to access multiple pages (stops when pages run out or max reached, whichever comes first)
 - Allow user to specify what details they want to collect with each scraper (explain options available in readme)
