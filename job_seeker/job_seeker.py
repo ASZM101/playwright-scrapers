@@ -1,7 +1,7 @@
 # Finds jobs on LinkedIn using provided credentials and parameters/filters; WIP (only found one of two jobs searched before encountering TimeoutError when changing page, unable to retry due to CAPTCHA in both headless and not headless, still need to remove this once done)
 
 import yaml
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode, urljoin, quote
 from playwright.sync_api import sync_playwright
 from scrapy import Selector
 from dataclasses import dataclass
@@ -25,7 +25,6 @@ class Job:
     job_title: str
     job_id: int
     company_name: str
-    company_image: str
     job_location: str
 
 PAGE_NUMBER = 1 # Global var keeps track of current pg num while scraping job listings
@@ -44,9 +43,8 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     page.wait_for_load_state("load")
 
-def scrape_jobs(page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
+def scrape_jobs(max, page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     global PAGE_NUMBER
-    main_url = "https://www.linkedin.com/jobs/"
     base_url = "https://www.linkedin.com/jobs/search/"
     # url = f"{base_url}?{urlencode(params)}" Still need to uncomment this
 
@@ -64,13 +62,32 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
+        details = Selector(text=page.locator("div.jobs-search__job-details--wrapper"))
         listing.locator("a").click()
-        page.wait_for_timeout(2000) # Still need to remove, just for testing (or maybe needed?)
-        page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
-        page.wait_for_timeout(2000) # Still need to remove, just for testing (or maybe needed?)
-        # Still need to collect info
+        info = Job(
+            url = "https://www.linkedin.com" + quote(details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None,
 
-    # Still need to uncomment or replace
+            job_title = details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() if details.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() else None,
+
+            job_id = listing.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() if listing.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() else None,
+
+            company_name = details.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() if details.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() else None,
+
+            job_location = listing.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() if listing.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() else None
+        ) # Scrapes details of each job
+        job_list.append(info)
+        logger.info(f"Scraped job: {info.job_title} at {info.company_name}")
+
+        page.wait_for_timeout(2000) # Wait for 2 sec to ensure job details load
+        page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
+        page.wait_for_timeout(2000) # Wait for 2 sec to ensure job details load
+
+        if i == max - 1: # Stops scraping once max jobs found
+            break
+    
+    return job_list
+
+    # Still need to uncomment or delete
     # while True:
     #     page.locator("div.jobs-search-results-list").click()
     #     logger.info(f"Found results div")
@@ -100,17 +117,15 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     #     except Exception: # Finished scraping
     #         logger.warning("No more pages to scrape")
     #         break
-    
-    PAGE_NUMBER = 1
-    return job_list
 
 # Define CLI to use click for scraping process
 @click.command()
+@click.option("--max", default=5, help="Specify a maximum number of jobs to scrape")
 @click.option("--config", type=click.Path(exists=True), default="jobs_config.yaml", help="Path to the YAML config file")
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 @click.option("--last24h", is_flag=True, default=False, help="Make the browser scrape for last 24h jobs only")
 
-def main(config, headless, last24h):
+def main(max, config, headless, last24h):
     with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
 
@@ -124,7 +139,7 @@ def main(config, headless, last24h):
 
         login(page, email, password, headless) # Login to LinkedIn
 
-        scrape_jobs(page, params_list, last24h) # Still need to remove this, just for testing, still need to replace params_list with params
+        scrape_jobs(max, page, params_list, last24h) # Still need to remove this, just for testing, still need to replace params_list with params
 
         # Still need to uncomment this, just testing login
         # all_jobs = []
