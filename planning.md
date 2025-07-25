@@ -1,16 +1,16 @@
 # Planning
 
 ## Web Scraper Ideas
-- 🚧 Job seeker (in progress, fix bugs)
+- 🚧 Job seeker (in progress, need README)
 - ⏸️ Screenshotter (on pause, add more unique features)
 - ⏸️ Sitemap scanner (on pause, add more unique features)
 - ✅ College searcher (MVP done)
 - ✅ Scholarship finder (MVP done)
 
 ## General Updates
-- Take new screenshot with outputs of all scrapers together, upload to #cdn and bay
 - Create video combining demos of all scrapers, upload to YouTube and bay
 - Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
+- Add more logger info updates throughout each process (especially useful for headless mode)
 - Enable scrolling in all scrapers
 - Implement way to access multiple pages (stops when pages run out or max reached, whichever comes first)
 - Allow user to specify what details they want to collect with each scraper (explain options available in readme)
@@ -19,7 +19,7 @@
 - Enable scraping programs to search in multiple pages
 - Test all scrapers as external user (starting with downloading repo from GitHub)
 - ✅ Add table of contents
-- ✅ Take screenshot of outputs of all scrapers together (main screenshot)
+- ✅ Take new screenshot with outputs of all scrapers together, upload to #cdn and bay
 
 ## Job Seeker
 - Update readme with info about job seeker
@@ -33,9 +33,9 @@
 - ✅ Create YAML template file (separate from personal file)
     - ✅ Login credentials (required)
     - ✅ URL parameters (default includes examples of params)
-- Create experienceable build
-    - Record video of job seeker in action
-    - Take screenshot of job seeker alone
+- ✅ Create experienceable build
+    - ✅ Record video of job seeker in action
+    - ✅ Take screenshot of job seeker alone
 
 ## College Searcher
 - Future plan (two modes)
