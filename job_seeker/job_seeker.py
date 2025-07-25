@@ -43,21 +43,6 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
     page.locator("#organic-div form").get_by_role("button", name="Sign in").click() # Click login btn
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     page.wait_for_load_state("load")
-    
-    logger.info(f"Successfully logged in") # Still need to remove this, only for testing
-
-    # Still need to see if might be able to remove this if timeout works
-    # if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
-    #     logger.warning("CAPTCHA page: Human interventions is required")
-    #     while True: # Polling loop to check if CAPTCHA is solved
-    #         if "checkpoint/challenge" not in page.url:
-    #             logger.info("CAPTCHA solved. Continuing with the rest of the process...")
-    #             break
-    #         page.wait_for_timeout(2000) # Wait 2 sec before polling again
-    #     page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
-    # else:
-    #     logger.error("CAPTCHA page: Aborting due to headless mode...")
-    #     sys.exit(1)
 
 def scrape_jobs(page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     global PAGE_NUMBER
@@ -71,14 +56,18 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
     page.wait_for_load_state("load")
     page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
 
-    logger.info(f"Successfully navigated to job search page") # Still need to remove this, only for testing
-
     # Still need to ensure only one element is selected (currently resolves to 2)
-    # if last24h: # Apply "last 24 hours" filter if requested
-    #     page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
-    #     page.locator("label").filter(has_text="Past 24 hours").click()
-    #     pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
-    #     page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
+    if last24h: # Apply "last 24 hours" filter if requested
+        page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
+        page.locator('label[for="advanced-filter-timePostedRange-r86400"]').filter(has_text="Past 24 hours").click()
+
+        # Still need to debug and uncomment
+        # pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
+        # page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
+
+        # Still need to remove, just for testing
+        page.wait_for_timeout(1000)
+        logger.info(f"Successfully applied last 24h filter")
     
     # Still need to uncomment
     # while True:
