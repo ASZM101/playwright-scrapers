@@ -30,7 +30,7 @@ class Job:
 
 PAGE_NUMBER = 1 # Global var keeps track of current pg num while scraping job listings
 
-def login_to_linkedin(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to set up config.yaml first)
+def login_to_linkedin(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to set up jobs_config.yaml first)
     page.goto("https://www.linkedin.com/login") # Go to LinkedIn login page
     page.wait_for_load_state("load")
 
@@ -55,7 +55,7 @@ def login_to_linkedin(page, email, password, headless): # Log in to LinkedIn usi
         logger.error("CAPTCHA page: Aborting due to headless mode...")
         sys.exit(1)
 
-def scrape_jobs(page, params, last24h): # Scrape job listings based on provided search parameters (include in config.yaml)
+def scrape_jobs(page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     global PAGE_NUMBER
     main_url = "https://www.linkedin.com/jobs/"
     base_url = "https://www.linkedin.com/jobs/search/"
@@ -106,12 +106,12 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
 
 # Define CLI to use click for scraping process
 @click.command()
-@click.option("--config", type=click.Path(exists=True), default="config.yaml", help="Path to the YAML config file")
+@click.option("--config", type=click.Path(exists=True), default="jobs_config.yaml", help="Path to the YAML config file")
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 @click.option("--last24h", is_flag=True, default=False, help="Make the browser scrape for last 24h jobs only")
 
 def main(config, headless, last24h):
-    with open("config.yaml", "r") as f: # Load YAML file with list of search params
+    with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
 
     email = data.get("email")

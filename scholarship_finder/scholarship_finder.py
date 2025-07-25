@@ -28,7 +28,7 @@ class Scholarship:
     recipients: str
     deadline: str
 
-def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up config.yaml first)
+def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up scholarships_config.yaml first)
     page.goto("https://app.goingmerry.com/sign-in") # Go to Going Merry login page
     page.wait_for_load_state("load")
 
@@ -42,7 +42,7 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
     page.wait_for_load_state("load")
 
-def scrape_scholarships(max, page, params): # Scrape scholarship listings based on provided search parameters (include in config.yaml)
+def scrape_scholarships(max, page, params): # Scrape scholarship listings based on provided search parameters (include in scholarships_config.yaml)
     base_url = "https://app.goingmerry.com/awards"
     url = f"{base_url}?{urlencode(params)}"
 
@@ -84,7 +84,7 @@ def scrape_scholarships(max, page, params): # Scrape scholarship listings based 
 # Define CLI to use click for scraping process
 @click.command()
 @click.option("--max", default=5, help="Specify a maximum number of scholarships to scrape")
-@click.option("--config", type=click.Path(exists=True), default="config.yaml", help="Path to the YAML config file")
+@click.option("--config", type=click.Path(exists=True), default="scholarships_config.yaml", help="Path to the YAML config file")
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
 def main(max, config, headless):
@@ -109,10 +109,10 @@ def main(max, config, headless):
         
         df = pd.DataFrame([scholarship.__dict__ for scholarship in all_scholarships]) # Create DataFrame from combined scholarships
 
-        csv_file_path = 'data.csv'
+        csv_file_path = 'scholarships_data.csv'
         df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
-        logger.info(f"Scraped {len(all_scholarships)} scholarships and saved to data.csv") # Log the number of scholarships scraped and saved
+        logger.info(f"Scraped {len(all_scholarships)} scholarships and saved to scholarships_data.csv") # Log the number of scholarships scraped and saved
 
         browser.close()
 

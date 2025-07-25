@@ -27,7 +27,7 @@ class College:
     rates: str
     cost: str
 
-def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up config.yaml first)
+def login(page, email, password, headless): # Log in to Going Merry using provided credentials (need to create account and set up colleges_config.yaml first)
     page.goto("https://app.goingmerry.com/sign-in") # Go to Going Merry login page
     page.wait_for_load_state("load")
 
@@ -41,7 +41,7 @@ def login(page, email, password, headless): # Log in to Going Merry using provid
     page.wait_for_timeout(3000) # Wait 3 sec to ensure page loads
     page.wait_for_load_state("load")
 
-def explore_colleges(max, page, params): # Scrape info about colleges based on provided search parameters (include in config.yaml)
+def explore_colleges(max, page, params): # Scrape info about colleges based on provided search parameters (include in colleges_config.yaml)
     base_url = "https://app.goingmerry.com/colleges"
     url = f"{base_url}?{urlencode(params)}"
 
@@ -76,7 +76,7 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 # Define CLI to use click for scraping process
 @click.command()
 @click.option("--max", default=5, help="Specify a maximum number of colleges to scrape")
-@click.option("--config", type=click.Path(exists=True), default="config.yaml", help="Path to the YAML config file")
+@click.option("--config", type=click.Path(exists=True), default="colleges_config.yaml", help="Path to the YAML config file")
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
 def main(max, config, headless):
@@ -101,10 +101,10 @@ def main(max, config, headless):
 
         df = pd.DataFrame([college.__dict__ for college in all_colleges]) # Create DataFrame from combined colleges
 
-        csv_file_path = 'data.csv'
+        csv_file_path = 'colleges_data.csv'
         df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
-        logger.info(f"Scraped {len(all_colleges)} colleges and saved to data.csv") # Log the number of colleges scraped and saved
+        logger.info(f"Scraped {len(all_colleges)} colleges and saved to colleges_data.csv") # Log the number of colleges scraped and saved
 
         browser.close()
 
