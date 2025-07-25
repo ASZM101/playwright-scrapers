@@ -65,8 +65,11 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
         # pattern = r"Apply current filters to show (\d+\+?) results" # () groups regex, \d matches digits 0-9, + matches \d one or more times, \+ escapes plus sign, ? makes plus sign optional
         # page.get_by_role("button", name=re.compile(pattern, re.IGNORECASE)).click()
 
+        page.wait_for_timeout(2000) # Still need to remove, just for testing
+        page.locator('button[data-test-reusables-filters-modal-show-results-button="true"]').click()
+
         # Still need to remove, just for testing
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(2000)
         logger.info(f"Successfully applied last 24h filter")
     
     # Still need to uncomment
