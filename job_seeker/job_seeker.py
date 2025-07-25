@@ -21,11 +21,11 @@ logging.getLogger().handlers = [rich_handler]
 # dataclass (decorator from dataclasses module, automatically generates special methods) stores info about each job listing
 @dataclass
 class Job:
-    url: str
     job_title: str
-    job_id: int
     company_name: str
     job_location: str
+    job_id: int
+    url: str
 
 PAGE_NUMBER = 1 # Global var keeps track of current pg num while scraping job listings
 
@@ -60,6 +60,7 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     
     results = page.locator("li.ember-view.AwLoWPpuChmYRACOainfIeJFpSNEnXzKuVjsg.occludable-update.p0.relative.scaffold-layout__list-item")
+    # Still need to figure out why first result is collected twice, job location isn't collected in any of them, and job id is only collected for first result
     for i in range(results.count()): # Loop through job listings
         listing = results.nth(i)
         listingSelector = Selector(text=listing.inner_html())
@@ -69,18 +70,18 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
         logger.info("https://www.linkedin.com" + quote(detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None)
 
         info = Job(
-            url = "https://www.linkedin.com" + quote(detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get()) if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::attr(href)").get() else None,
-
             job_title = detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() if detailSelector.css("div.t-24.job-details-jobs-unified-top-card__job-title a ::text").get() else None,
-
-            job_id = listingSelector.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() if listingSelector.css("div.display-flex.job-card-container.relative.job-card-list.job-card-container--clickable.job-card-list--underline-title-on-hover.jobs-search-results-list__list-item--active.jobs-search-two-pane__job-card-container--viewport-tracking-0 ::attr(data-job-id)").get() else None,
 
             company_name = detailSelector.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() if detailSelector.css("div.job-details-jobs-unified-top-card__company-name a ::text").get() else None,
 
-            job_location = listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() if listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() else None
+            job_location = listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() if listingSelector.css("div.artdeco-entity-lockup__caption ember-view span ::text").get() else None,
+
+            job_id = listingSelector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if listingSelector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None,
+
+            url = "https://www.linkedin.com/jobs/view/" + listingSelector.css("div.job-card-container--clickable ::attr(data-job-id)").get() if listingSelector.css("div.job-card-container--clickable ::attr(data-job-id)").get() else None
         ) # Scrapes details of each job
         job_list.append(info)
-        logger.info(f"Scraped job: {info.job_title} at {info.company_name}")
+        logger.info(f"Scraped job: {info.job_id}") # Still need to replace "{info.job_id}" with "{info.job_title} at {info.company_name}"
 
         page.wait_for_timeout(2000) # Wait for 2 sec to ensure job details load
         page.mouse.wheel(0, 100) # deltaX: horizontal scroll amount (+ = right, - = left); deltaY = vertical scroll amount (+ = down, - = up)
