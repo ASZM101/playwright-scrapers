@@ -1,4 +1,4 @@
-# Finds jobs on LinkedIn using provided credentials and parameters/filters; WIP (only found one of two jobs searched before encountering TimeoutError when changing page, unable to retry due to CAPTCHA in both headless and not headless)
+# Finds jobs on LinkedIn using provided credentials and parameters/filters; WIP (only found one of two jobs searched before encountering TimeoutError when changing page, unable to retry due to CAPTCHA in both headless and not headless, still need to remove this once done)
 
 import yaml
 from urllib.parse import urlencode, urljoin
@@ -30,7 +30,7 @@ class Job:
 
 PAGE_NUMBER = 1 # Global var keeps track of current pg num while scraping job listings
 
-def login_to_linkedin(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to set up jobs_config.yaml first)
+def login(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to set up jobs_config.yaml first)
     page.goto("https://www.linkedin.com/login") # Go to LinkedIn login page
     page.wait_for_load_state("load")
 
@@ -41,19 +41,23 @@ def login_to_linkedin(page, email, password, headless): # Log in to LinkedIn usi
     page.get_by_label("Password").fill(password)
 
     page.locator("#organic-div form").get_by_role("button", name="Sign in").click() # Click login btn
+    page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
     page.wait_for_load_state("load")
+    
+    logger.info(f"Successfully logged in") # Still need to remove this, only for testing
 
-    if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
-        logger.warning("CAPTCHA page: Human interventions is required")
-        while True: # Polling loop to check if CAPTCHA is solved
-            if "checkpoint/challenge" not in page.url:
-                logger.info("CAPTCHA solved. Continuing with the rest of the process...")
-                break
-            page.wait_for_timeout(2000) # Wait 2 sec before polling again
-        page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
-    else:
-        logger.error("CAPTCHA page: Aborting due to headless mode...")
-        sys.exit(1)
+    # Still need to see if might be able to remove this if timeout works
+    # if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
+    #     logger.warning("CAPTCHA page: Human interventions is required")
+    #     while True: # Polling loop to check if CAPTCHA is solved
+    #         if "checkpoint/challenge" not in page.url:
+    #             logger.info("CAPTCHA solved. Continuing with the rest of the process...")
+    #             break
+    #         page.wait_for_timeout(2000) # Wait 2 sec before polling again
+    #     page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
+    # else:
+    #     logger.error("CAPTCHA page: Aborting due to headless mode...")
+    #     sys.exit(1)
 
 def scrape_jobs(page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     global PAGE_NUMBER
@@ -65,6 +69,7 @@ def scrape_jobs(page, params, last24h): # Scrape job listings based on provided 
 
     page.goto(url) # Go to search results page
     page.wait_for_load_state("load")
+    page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
 
     if last24h: # Apply "last 24 hours" filter if requested
         page.get_by_role("button", name="Show all filters. Clicking this button displays all available filter options.").click()
@@ -122,20 +127,21 @@ def main(config, headless, last24h):
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
 
-        login_to_linkedin(page, email, password, headless) # Login to LinkedIn
+        login(page, email, password, headless) # Login to LinkedIn
 
-        all_jobs = []
-        for params in params_list:
-            logger.info(f"Crawl starting... Params: {params}")
-            jobs = scrape_jobs(page, params, last24h)
-            all_jobs.extend(jobs)
+        # Still need to uncomment this, just testing login
+        # all_jobs = []
+        # for params in params_list:
+        #     logger.info(f"Crawl starting... Params: {params}")
+        #     jobs = scrape_jobs(page, params, last24h)
+        #     all_jobs.extend(jobs)
         
-        df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
+        # df = pd.DataFrame([job.__dict__ for job in all_jobs]) # Create DataFrame from combined job_list
 
-        csv_file_path = 'jobs_data.csv'
-        df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
+        # csv_file_path = 'jobs_data.csv'
+        # df.to_csv(csv_file_path, index=False) # Save DataFrame to CSV file
 
-        logger.info(f"Scraped {len(all_jobs)} jobs and saved to jobs_data.csv") # Log the number of jobs scraped and saved
+        # logger.info(f"Scraped {len(all_jobs)} jobs and saved to jobs_data.csv") # Log the number of jobs scraped and saved
 
         browser.close()
 
