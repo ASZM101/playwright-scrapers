@@ -10,15 +10,26 @@
 </div>
 
 ### Table of Contents
+
 - [College Searcher](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher)
 
 - [Job Seeker](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#job-seeker)
 
 - [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
 
+<details>
+    <summary><h2 style="display: inline;">College Searcher</h2></summary><br>
+    <p>Explore <b>colleges</b> on <a href="https://goingmerry.com">Going Merry</a> (a free platform with an extensive database of scholarships and colleges) by using the <code>college_searcher.py</code> script to:</p>
+    <ol>
+        <li>Log in to your account on Going Merry</li><br>
+        <li>Apply search parameters to filter the results</li><br>
+        <li>Scrape college details, storing the data in a CSV file</li>
+    </ol>
+</details>
+
 ## College Searcher
 
-Explore **colleges** on [Going Merry](https://goingmerry.com/) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:
+Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:
 
 1. Log in to your account on Going Merry
 
@@ -46,16 +57,15 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the following template:
+2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
     ```yaml
     email: GOING_MERRY_EMAIL
     password: GOING_MERRY_PASSWORD
     params:
-        # The following params are intended to be the least restrictive, serving as a starting point for a broad search
-        - gmMajorName: All majors # Display colleges offering any major
-          orderColumn: value # Order the results by Going Merry's value score
-          orderType: desc # Sort the results in descending order
+        - gmMajorName: All majors
+          orderColumn: value
+          orderType: desc
     ```
 
     _**Note**: Replace `GOING_MERRY_EMAIL` and `GOING_MERRY_PASSWORD` with your login credentials._
@@ -100,7 +110,7 @@ Before running this program, ensure you have the following installed:
 
 ## Job Seeker
 
-Discover **jobs** on [LinkedIn](https://www.linkedin.com/) (a platform with an extensive database of job listings) by using the `job_seeker.py` script to:
+Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an extensive database of job listings) by using the `job_seeker.py` script to:
 
 1. Log in to your account on LinkedIn
 
@@ -128,7 +138,7 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com/) login credentials and desired search parameters using the following template:
+2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com) login credentials and desired search parameters using the following template:
     
     ```yaml
     email: LINKEDIN_EMAIL
@@ -188,7 +198,7 @@ Before running this program, ensure you have the following installed:
 
 ## Scholarship Finder
 
-Find **high-match scholarships** on [Going Merry](https://goingmerry.com/) (a free platform with an extensive database of scholarships and colleges) by using the `scholarship_finder.py` script to:
+Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `scholarship_finder.py` script to:
 
 1. Log in to your account on Going Merry
 
@@ -216,7 +226,7 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the following template:
+2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
     ```yaml
     email: GOING_MERRY_EMAIL

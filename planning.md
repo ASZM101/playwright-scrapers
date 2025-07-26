@@ -1,10 +1,10 @@
 # Planning
 
 ## Web Scraper Ideas
-- 🚧 Job seeker (in progress, need README)
 - ⏸️ Screenshotter (on pause, add more unique features)
 - ⏸️ Sitemap scanner (on pause, add more unique features)
 - ✅ College searcher (MVP done)
+- ✅ Job seeker (MVP done)
 - ✅ Scholarship finder (MVP done)
 
 ## General Updates
@@ -25,22 +25,6 @@
 - ✅ Add more details about how to run to each section on readme
 - ✅ Ensure comments are consistent in all scrapers
 - ✅ Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
-
-## Job Seeker
-- ✅ Update readme with info about job seeker
-    - ✅ Overall description
-    - ✅ Technical requirements
-    - ✅ How to run
-- ✅ MVP plan
-    - ✅ Apply parameters provided by user
-    - ✅ Collect info from each job listing
-    - ✅ Add info to CSV
-- ✅ Create YAML template file (separate from personal file)
-    - ✅ Login credentials (required)
-    - ✅ URL parameters (default includes examples of params)
-- ✅ Create experienceable build
-    - ✅ Record video of job seeker in action
-    - ✅ Take screenshot of job seeker alone
 
 ## College Searcher
 - Future plan (add find mode): Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal)
@@ -64,6 +48,22 @@
 - ✅ Create experienceable build
     - ✅ Record video of college searcher in action
     - ✅ Take screenshot of college searcher alone
+
+## Job Seeker
+- ✅ Update readme with info about job seeker
+    - ✅ Overall description
+    - ✅ Technical requirements
+    - ✅ How to run
+- ✅ MVP plan
+    - ✅ Apply parameters provided by user
+    - ✅ Collect info from each job listing
+    - ✅ Add info to CSV
+- ✅ Create YAML template file (separate from personal file)
+    - ✅ Login credentials (required)
+    - ✅ URL parameters (default includes examples of params)
+- ✅ Create experienceable build
+    - ✅ Record video of job seeker in action
+    - ✅ Take screenshot of job seeker alone
 
 ## Scholarship Finder
 - ✅ Update readme with info about scholarship finder
