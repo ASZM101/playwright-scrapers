@@ -46,9 +46,31 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the provided template
+2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the following template:
 
-3. Open a terminal or command prompt, and navigate to the `college_searcher` directory of the cloned repository
+    ```yaml
+    email: GOING_MERRY_EMAIL
+    password: GOING_MERRY_PASSWORD
+    params:
+        # The following params are intended to be the least restrictive, serving as a starting point for a broad search
+        - gmMajorName: All majors # Display colleges offering any major
+          orderColumn: value # Order the results by Going Merry's value score
+          orderType: desc # Sort the results in descending order
+    ```
+
+    _**Note**: Replace `GOING_MERRY_EMAIL` and `GOING_MERRY_PASSWORD` with your login credentials._
+
+    **Parameters Explained**:
+
+    - `gmMajorName: All majors` displays all colleges that offer any major. You can replace `All majors` with one of the majors listed on Going Merry's [Explore Colleges](https://app.goingmerry.com/colleges) page to filter your results by your desired major
+
+    - `orderColumn: value` orders the results by Going Merry's value score, which is further explained on their website in the [Explore Colleges](https://app.goingmerry.com/colleges) page
+
+    - `orderType: desc` sorts the results in descending order
+
+    You may include as many of these parameters for each entry as desired, but always make sure to include at least one entry with at least one parameter, and be careful with the indentation. The above parameters are intended to set up the least restrictive filters, serving as a guideline for a broad search.
+
+3. Navigate to the cloned repository, and open a terminal or command prompt inside the `college_searcher` folder
 
 4. Run the `college_searcher.py` script with the following command:
 
@@ -64,9 +86,17 @@ Before running this program, ensure you have the following installed:
     python3 college_searcher.py --max MAX_COLLEGES --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
     ```
 
-    (Replace `MAX_COLLEGES` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`)
+    _**Note**: Replace `MAX_COLLEGES` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`._
 
 5. Wait for the script to finish running, and open the `colleges_data.csv` file to review all of the scraped colleges
+
+    **Troubleshooting**:
+
+    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
+
+    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
+
+    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short
 
 ## Job Seeker
 
@@ -98,9 +128,37 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com/) login credentials and desired search parameters using the provided template
+2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com/) login credentials and desired search parameters using the following template:
+    
+    ```yaml
+    email: LINKEDIN_EMAIL
+    password: LINKEDIN_PASSWORD
+    params:
+      - keywords: KEYWORD_1 KEYWORD_2
+        location: CITY_NAME
+        currentJobId: JOB_ID
+        geoId: GEO_ID
+      - keywords: KEYWORD_3
+        location: CITY_NAME
+        currentJobId: JOB_ID
+        geoId: GEO_ID
+    ```
 
-3. Open a terminal or command prompt, and navigate to the `job_seeker` directory of the cloned repository
+    _**Note**: Replace `LINKEDIN_EMAIL` and `LINKEDIN_PASSWORD` with your login credentials._
+
+    **Parameters Explained**:
+
+    - `keywords` allow you to specify any keywords you want to use to filter your results. You can put spaces in between words, similarly to using the search bar to look for jobs on LinkedIn
+
+    - `location` allows you to narrow your search to a certain city
+
+    - `currentJobId` is for when you are looking for a specific job and you already have its job ID, which is a 10-digit number that can be found in the URL of a job description
+
+    - `geoId` is for when you are looking for a specific geographic location and you already have its geo ID, which is a 9-digit number that can be found in the URL of a job search when you use the search bar that is specifically for locations
+
+    You may include as many of these parameters for each entry as desired, but always make sure to include at least one entry with at least one parameter, and be careful with the indentation.
+
+3. Navigate to the cloned repository, and open a terminal or command prompt inside the `job_seeker` folder
 
 4. Run the `job_seeker.py` script with the following command:
 
@@ -108,17 +166,25 @@ Before running this program, ensure you have the following installed:
     python3 job_seeker.py
     ```
 
-    By default, the maximum jobs scraped is 5, the configuration file path is `jobs_config.yaml`, and the program runs in headless mode.
+    By default, the maximum jobs scraped is 5, the configuration file path is `jobs_config.yaml`, the program runs in headless mode, and no additional filters are applied outside of the configuration file.
 
-    If you want to specify the maximum number of jobs to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
+    If you want to specify the maximum number of jobs to scrape, the path to the YAML configuration file, whether the program runs in headless mode, and/or whether the results should be filtered to only include job listings posted in the last 24 hours, run the following command:
 
     ```bash
-    python3 job_seeker.py --max MAX_JOBS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
+    python3 job_seeker.py --max MAX_JOBS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless --last24h
     ```
 
-    (Replace `MAX_JOBS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless)
+    _**Note**: Replace `MAX_JOBS` and `PATH/TO/CUSTOM_CONFIG.yaml`, choose either `--headless` or `--no-headless`, and only include the `--last24h` flag if you want to filter your results._
 
 5. Wait for the script to finish running, and open the `jobs_data.csv` file to review all of the scraped jobs
+
+    **Troubleshooting**:
+
+    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
+
+    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
+
+    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short
 
 ## Scholarship Finder
 
@@ -150,9 +216,27 @@ Before running this program, ensure you have the following installed:
 
 1. Clone this repository, and open it in your favorite IDE
 
-2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the provided template
+2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com/) login credentials and desired search parameters using the following template:
 
-3. Open a terminal or command prompt, and navigate to the `scholarship_finder` directory of the cloned repository
+    ```yaml
+    email: GOING_MERRY_EMAIL
+    password: GOING_MERRY_PASSWORD
+    params:
+        - eg: mat
+          hide: COS
+    ```
+
+    _**Note**: Replace `GOING_MERRY_EMAIL` and `GOING_MERRY_PASSWORD` with your login credentials._
+
+    **Parameters Explained**:
+
+    - `eg: mat` filters scholarships by only showing the ones where you have a high match for eligibility, based on your profile
+
+    - `hide: COS` hides scholarships that are specific to certain colleges.
+
+    You may include as many of these parameters for each entry as desired, but always make sure to include at least one entry with at least one parameter, and be careful with the indentation.
+
+3. Navigate to the cloned repository, and open a terminal or command prompt inside the `scholarship_finder` folder
 
 4. Run the `scholarship_finder.py` script with the following command:
 
@@ -168,6 +252,14 @@ Before running this program, ensure you have the following installed:
    python3 scholarship_finder.py --max MAX_SCHOLARSHIPS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
    ```
 
-   (Replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless`)
+   _**Note**: Replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless`._
 
 5. Wait for the script to finish running, and open the `scholarships_data.csv` file to review all of the scraped scholarships
+
+    **Troubleshooting**:
+
+    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
+
+    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
+
+    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short

@@ -8,22 +8,23 @@
 - ✅ Scholarship finder (MVP done)
 
 ## General Updates
-- Update all screenshots and recordings with any changes
-- Add more details about how to run to each section on readme
+- Add dropdowns to readme
+- Test all scrapers as external user (starting with downloading repo from GitHub)
 - Remove redundant instructions on readme
-- Ensure comments are consistent in all scrapers
-- Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
+- Update all screenshots and recordings with any changes
 - Enable scrolling in all scrapers
 - Implement way to access multiple pages (stops when pages run out or max reached, whichever comes first)
 - Allow user to specify what details they want to collect with each scraper (explain options available in readme)
 - Update readme with options for all possible URL params for each scraper
 - Add comments to explain what each imported library/module is for in each Python file (remove not used)
 - Enable scraping programs to search in multiple pages
-- Test all scrapers as external user (starting with downloading repo from GitHub)
 - ✅ Add table of contents
 - ✅ Take new screenshot with outputs of all scrapers together, upload to #cdn and bay
 - ✅ Create video combining demos of all scrapers, upload to YouTube and bay
 - ✅ Add more logger info updates throughout each process (especially useful for headless mode)
+- ✅ Add more details about how to run to each section on readme
+- ✅ Ensure comments are consistent in all scrapers
+- ✅ Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
 
 ## Job Seeker
 - ✅ Update readme with info about job seeker
@@ -42,22 +43,17 @@
     - ✅ Take screenshot of job seeker alone
 
 ## College Searcher
-- Future plan (two modes)
-    - **Find**: Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal, **_later_**)
-        - Input full name of college into search bar
-        - Collect info from each college
-        - Add info to CSV
-        - Have failsafe in case college name mistyped or not available on platform
+- Future plan (add find mode): Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal)
+    - Input full name of college into search bar
+    - Collect info from each college
+    - Add info to CSV
+    - Have failsafe in case college name mistyped or not available on platform
     - Mode specified as flag, similar to last24h for job seeker
-    - ✅ **Explore**: Find information on colleges that meet criteria provided by user (more similar to scholarships, **_start here_**)
-        - ✅ Apply parameters provided by user
-        - ✅ Collect info from each college
-        - ✅ Add info to CSV
 - Create YAML template file (separate from personal file)
     - Full names of colleges (only find, required)
     - ✅ Login credentials (both modes, required)
     - ✅ URL parameters (only explore, required)
-- ✅ MVP plan (one mode)
+- ✅ MVP plan (only explore mode): Find information on colleges that meet criteria provided by user
     - ✅ Apply parameters provided by user
     - ✅ Collect info from each college
     - ✅ Add info to CSV

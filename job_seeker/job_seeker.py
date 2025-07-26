@@ -27,9 +27,7 @@ class Job:
     job_id: int
     url: str
 
-PAGE_NUMBER = 1 # Global var keeps track of current pg num while scraping job listings
-
-def login(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to set up jobs_config.yaml first)
+def login(page, email, password, headless): # Log in to LinkedIn using provided credentials (need to create account and set up jobs_config.yaml first)
     page.goto("https://www.linkedin.com/login") # Go to LinkedIn login page
     page.wait_for_load_state("load")
 
@@ -56,7 +54,6 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
         sys.exit(1)
 
 def scrape_jobs(max, page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
-    global PAGE_NUMBER
     base_url = "https://www.linkedin.com/jobs/search/"
     url = f"{base_url}?{urlencode(params)}"
 
@@ -122,7 +119,7 @@ def main(max, config, headless, last24h):
         page = browser.new_page()
 
         logger.info("Logging in to Going Merry...")
-        login(page, email, password, headless) # Login to LinkedIn
+        login(page, email, password, headless) # Log in to LinkedIn
         logger.info("Successfully logged in.")
 
         all_jobs = []
