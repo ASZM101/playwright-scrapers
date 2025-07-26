@@ -17,16 +17,6 @@
 
 - [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
 
-<details>
-    <summary><h2 style="display: inline;">College Searcher</h2></summary><br>
-    <p>Explore <b>colleges</b> on <a href="https://goingmerry.com">Going Merry</a> (a free platform with an extensive database of scholarships and colleges) by using the <code>college_searcher.py</code> script to:</p>
-    <ol>
-        <li>Log in to your account on Going Merry</li><br>
-        <li>Apply search parameters to filter the results</li><br>
-        <li>Scrape college details, storing the data in a CSV file</li>
-    </ol>
-</details>
-
 ## College Searcher
 
 Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:

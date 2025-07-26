@@ -8,7 +8,6 @@
 - ✅ Scholarship finder (MVP done)
 
 ## General Updates
-- Add dropdowns to readme
 - Test all scrapers as external user (starting with downloading repo from GitHub)
 - Remove redundant instructions on readme
 - Update all screenshots and recordings with any changes
