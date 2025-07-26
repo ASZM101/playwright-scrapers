@@ -9,12 +9,11 @@
 
 ## General Updates
 - Test all scrapers as external user (starting with downloading repo from GitHub)
-- Remove redundant instructions on readme
 - Update all screenshots and recordings with any changes
 - Enable scrolling in all scrapers
 - Implement way to access multiple pages (stops when pages run out or max reached, whichever comes first)
 - Allow user to specify what details they want to collect with each scraper (explain options available in readme)
-- Update readme with options for all possible URL params for each scraper
+- Update readme with options for all possible URL params (with their corresponding values) for each scraper
 - Add comments to explain what each imported library/module is for in each Python file (remove not used)
 - Enable scraping programs to search in multiple pages
 - ✅ Add table of contents
@@ -24,6 +23,7 @@
 - ✅ Add more details about how to run to each section on readme
 - ✅ Ensure comments are consistent in all scrapers
 - ✅ Add note to readme about possibly having to adjust timeout times to adapt to different internet speeds and each user's preference (though need to keep in mind that script could fail if timeouts too short)
+- ✅ Remove redundant instructions on readme
 
 ## College Searcher
 - Future plan (add find mode): Find information on specific colleges based on full name provided by user (more similar to using platform to search for college on platform, but easier to mass-collect info using terminal)

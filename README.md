@@ -9,7 +9,7 @@
     <img src="https://hackatime-badge.hackclub.com/U07DMCJTB8Q/playwright-scrapers" alt="Hackatime Badge">
 </div>
 
-### Table of Contents
+### Available Scrapers
 
 - [College Searcher](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher)
 
@@ -17,19 +17,9 @@
 
 - [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
 
-## College Searcher
-
-Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:
-
-1. Log in to your account on Going Merry
-
-2. Apply search parameters to filter the results
-
-3. Scrape college details, storing the data in a CSV file
-
 ### Technical Requirements
 
-Before running this program, ensure you have the following installed:
+Before running any of these programs, ensure you have the following installed:
 
 - Python 3.x
 
@@ -42,6 +32,24 @@ Before running this program, ensure you have the following installed:
 - `rich` library
 
 - `click` library
+
+### Troubleshooting
+
+Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the scripts. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
+
+- If you experience issues with any of the scripts quitting before the page finishes loading, you may want to increase the timeout
+
+- If the progress of any of the scripts feels too slow, you may want to slightly decrease the timeout, but keep in mind that you may encounter issues if the timeouts are too short
+
+## College Searcher
+
+Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `college_searcher.py` script to:
+
+1. Log in to your account on Going Merry
+
+2. Apply search parameters to filter the colleges
+
+3. Scrape college details, storing the data in a CSV file
 
 ### How to Run
 
@@ -90,39 +98,15 @@ Before running this program, ensure you have the following installed:
 
 5. Wait for the script to finish running, and open the `colleges_data.csv` file to review all of the scraped colleges
 
-    **Troubleshooting**:
-
-    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
-
-    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
-
-    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short
-
 ## Job Seeker
 
 Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an extensive database of job listings) by using the `job_seeker.py` script to:
 
 1. Log in to your account on LinkedIn
 
-2. Apply search parameters to filter the results
+2. Apply search parameters to filter the jobs
 
 3. Scrape job details, storing the data in a CSV file
-
-### Technical Requirements
-
-Before running this program, ensure you have the following installed:
-
-- Python 3.x
-
-- `playwright-sync` library
-
-- `scrapy` library
-
-- `pandas` library
-
-- `rich` library
-
-- `click` library
 
 ### How to Run
 
@@ -178,39 +162,15 @@ Before running this program, ensure you have the following installed:
 
 5. Wait for the script to finish running, and open the `jobs_data.csv` file to review all of the scraped jobs
 
-    **Troubleshooting**:
-
-    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
-
-    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
-
-    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short
-
 ## Scholarship Finder
 
 Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a free platform with an extensive database of scholarships and colleges) by using the `scholarship_finder.py` script to:
 
 1. Log in to your account on Going Merry
 
-2. Apply search parameters to filter the results
+2. Apply search parameters to filter the scholarships
 
 3. Scrape scholarship details, storing the data in a CSV file
-
-### Technical Requirements
-
-Before running this program, ensure you have the following installed:
-
-- Python 3.x
-
-- `playwright-sync` library
-
-- `scrapy` library
-
-- `pandas` library
-
-- `rich` library
-
-- `click` library
 
 ### How to Run
 
@@ -255,11 +215,3 @@ Before running this program, ensure you have the following installed:
    _**Note**: Replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless`._
 
 5. Wait for the script to finish running, and open the `scholarships_data.csv` file to review all of the scraped scholarships
-
-    **Troubleshooting**:
-
-    Depending on your internet speed and personal preference, you may need to adjust the argument in the `page.wait_for_timeout(milliseconds)` functions used throughout the script. The number in between the parentheses is the time (in milliseconds) that the program will wait before proceeding with the rest of the script.
-
-    - If you experience issues with the script quitting before the page finishes loading, you may want to increase this time
-
-    - If the automated process feels too slow, you may want to slightly decrease this time, but keep in mind that you may encounter issues if the timeouts are too short
