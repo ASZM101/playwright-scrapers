@@ -22,7 +22,7 @@
 1. Ensure Python (version 3.8 or higher) is installed:
 
     ```bash
-    python --version
+    python3 --version
     ```
 
     If it is not installed yet, download it from [python.org](https://www.python.org/downloads).
