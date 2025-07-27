@@ -1,0 +1,6 @@
+pyyaml
+playwright
+scrapy
+pandas
+rich
+click
