@@ -80,6 +80,8 @@ def explore_colleges(max, page, params): # Scrape info about colleges based on p
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
 def main(max, config, headless):
+    logger.info("Initiating college searcher...")
+
     with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
     

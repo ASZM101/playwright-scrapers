@@ -88,6 +88,8 @@ def scrape_scholarships(max, page, params): # Scrape scholarship listings based 
 @click.option("--headless/--no-headless", default=True, help="Run the browser in headless mode or not")
 
 def main(max, config, headless):
+    logger.info("Initiating scholarship finder...")
+
     with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
 

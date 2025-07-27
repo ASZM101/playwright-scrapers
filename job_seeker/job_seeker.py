@@ -107,6 +107,8 @@ def scrape_jobs(max, page, params, last24h): # Scrape job listings based on prov
 @click.option("--last24h", is_flag=True, default=False, help="Make the browser scrape for last 24h jobs only")
 
 def main(max, config, headless, last24h):
+    logger.info("Initiating job seeker...")
+
     with open(config, "r") as f: # Load YAML file with list of search params
         data = yaml.safe_load(f)
 
