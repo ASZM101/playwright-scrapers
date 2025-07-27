@@ -17,21 +17,40 @@
 
 - [Scholarship Finder](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#scholarship-finder)
 
-### Technical Requirements
+### Installation
 
-Before running any of these programs, ensure you have the following installed:
+1. Ensure Python (version 3.8 or higher) is installed:
 
-- Python 3.x
+    ```bash
+    python --version
+    ```
 
--  `playwright-sync` library
+    If it is not installed yet, download it from [python.org](https://www.python.org/downloads).
 
-- `scrapy` library
+2. Install [uv](https://github.com/astral-sh/uv):
+    
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
 
-- `pandas` library
+3. Clone this repository:
 
-- `rich` library
+    ```bash
+    git clone https://github.com/ASZM101/playwright-scrapers.git
+    cd playwright-scrapers
+    ```
 
-- `click` library
+4. Install dependencies:
+
+    ```bash
+    uv pip install -r requirements.txt
+    ```
+
+5. Install browsers for Playwright:
+
+    ```bash
+    playwright install
+    ```
 
 ### Troubleshooting
 
@@ -53,7 +72,7 @@ Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform w
 
 ### How to Run
 
-1. Clone this repository, and open it in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
 
 2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
@@ -110,7 +129,7 @@ Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an ex
 
 ### How to Run
 
-1. Clone this repository, and open it in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
 
 2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com) login credentials and desired search parameters using the following template:
     
@@ -174,7 +193,7 @@ Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a fre
 
 ### How to Run
 
-1. Clone this repository, and open it in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
 
 2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
