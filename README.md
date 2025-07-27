@@ -40,13 +40,31 @@
     cd playwright-scrapers
     ```
 
-4. Install dependencies:
+4. (Recommended) Create a virtual environment:
+
+    ```bash
+    uv venv .venv
+    ```
+
+    If using Linux or macOS, activate the environment with the following command:
+
+    ```bash
+    source .venv/bin/activate
+    ```
+
+    If using Windows, activate the environment with the following command:
+
+    ```bash
+    .\.venv\Scripts\activate
+    ```
+
+5. Install dependencies:
 
     ```bash
     uv pip install -r requirements.txt
     ```
 
-5. Install browsers for Playwright:
+6. Set up Playwright:
 
     ```bash
     playwright install
