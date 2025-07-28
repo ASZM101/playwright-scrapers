@@ -27,10 +27,16 @@
 
     If it is not installed yet, download it from [python.org](https://www.python.org/downloads).
 
-2. Install [uv](https://github.com/astral-sh/uv):
+2. Install [uv](https://github.com/astral-sh/uv) either with the following command, if using Linux or macOS:
     
     ```bash
     curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+    Or, if using Windows, with the following command:
+
+    ```bash
+    irm https://astral.sh/uv/install.ps1 | iex
     ```
 
 3. Clone this repository:
