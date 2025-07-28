@@ -41,17 +41,18 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
     page.wait_for_timeout(5000) # Wait for 5 sec to ensure page loads
     page.wait_for_load_state("load")
 
-    if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
-        logger.warning("CAPTCHA page: Human intervention is required")
-        while True: # Polling loop to check if CAPTCHA is solved
-            if "checkpoint/challenge" not in page.url:
-                logger.info("CAPTCHA solved. Continuing with the rest of the job scraping process...")
-                break
-            page.wait_for_timeout(2000) # Wait 2 sec before polling again
-        page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
-    else:
-        logger.error("CATPCHA page: Aborting due to headless mode...")
-        sys.exit(1)
+    if "checkpoint/challenge" in page.url:
+        if not headless: # Detects if CAPTCHA page encountered
+            logger.warning("CAPTCHA page: Human intervention is required")
+            while True: # Polling loop to check if CAPTCHA is solved
+                if "checkpoint/challenge" not in page.url:
+                    logger.info("CAPTCHA solved. Continuing with the rest of the job scraping process...")
+                    break
+                page.wait_for_timeout(2000) # Wait 2 sec before polling again
+            page.wait_for_timeout(5000) # Wait 5 sec after CAPTCHA solved
+        else:
+            logger.error("CATPCHA page: Aborting due to headless mode...")
+            sys.exit(1)
 
 def scrape_jobs(max, page, params, last24h): # Scrape job listings based on provided search parameters (include in jobs_config.yaml)
     base_url = "https://www.linkedin.com/jobs/search/"
