@@ -90,7 +90,7 @@ Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform w
 
 ### How to Run
 
-1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements
 
 2. Open the `colleges_config.yaml` file in the `college_searcher` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
@@ -147,7 +147,7 @@ Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an ex
 
 ### How to Run
 
-1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements
 
 2. Open the `jobs_config.yaml` file in the `job_seeker` directory, and prepare this configuration file with your [LinkedIn](https://www.linkedin.com) login credentials and desired search parameters using the following template:
     
@@ -211,7 +211,7 @@ Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a fre
 
 ### How to Run
 
-1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements, and open the repository in your favorite IDE
+1. Follow the [installation](https://github.com/aszm101/playwright-scrapers?tab=readme-ov-file#college-searcher) instructions to clone this repository and install all the technical requirements
 
 2. Open the `scholarships_config.yaml` file in the `scholarship_finder` directory, and prepare this configuration file with your [Going Merry](https://goingmerry.com) login credentials and desired search parameters using the following template:
 
