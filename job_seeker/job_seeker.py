@@ -120,7 +120,7 @@ def main(max, config, headless, last24h):
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
 
-        logger.info("Logging in to Going Merry...")
+        logger.info("Logging in to LinkedIn...")
         login(page, email, password, headless) # Log in to LinkedIn
         logger.info("Successfully logged in.")
 
