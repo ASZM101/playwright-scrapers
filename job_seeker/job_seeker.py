@@ -38,7 +38,7 @@ def login(page, email, password, headless): # Log in to LinkedIn using provided 
     page.get_by_label("Password").fill(password)
 
     page.locator("#organic-div form").get_by_role("button", name="Sign in").click() # Click login btn
-    page.wait_for_timeout(3000) # Wait for 3 sec to ensure page loads
+    page.wait_for_timeout(5000) # Wait for 5 sec to ensure page loads
     page.wait_for_load_state("load")
 
     if "checkpoint/challenge" in page.url and not headless: # Detects if CAPTCHA page encountered
