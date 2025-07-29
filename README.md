@@ -126,7 +126,7 @@ Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform w
 4. Run the `college_searcher.py` script with the following command:
 
     ```bash
-    python3 college_searcher.py
+    uv run college_searcher.py
     ```
 
     By default, the maximum colleges scraped is 5, the configuration file path is `colleges_config.yaml`, and the program runs in headless mode.
@@ -134,7 +134,7 @@ Explore **colleges** on [Going Merry](https://goingmerry.com) (a free platform w
     If you want to specify the maximum number of colleges to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
 
     ```bash
-    python3 college_searcher.py --max MAX_COLLEGES --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
+    uv run college_searcher.py --max MAX_COLLEGES --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
     ```
 
     _**Note**: Replace `MAX_COLLEGES` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `no-headless`._
@@ -190,7 +190,7 @@ Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an ex
 4. Run the `job_seeker.py` script with the following command:
 
     ```bash
-    python3 job_seeker.py
+    uv run job_seeker.py
     ```
 
     By default, the maximum jobs scraped is 5, the configuration file path is `jobs_config.yaml`, the program runs in headless mode, and no additional filters are applied outside of the configuration file.
@@ -198,7 +198,7 @@ Discover **jobs** on [LinkedIn](https://www.linkedin.com) (a platform with an ex
     If you want to specify the maximum number of jobs to scrape, the path to the YAML configuration file, whether the program runs in headless mode, and/or whether the results should be filtered to only include job listings posted in the last 24 hours, run the following command:
 
     ```bash
-    python3 job_seeker.py --max MAX_JOBS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless --last24h
+    uv run job_seeker.py --max MAX_JOBS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless --last24h
     ```
 
     _**Note**: Replace `MAX_JOBS` and `PATH/TO/CUSTOM_CONFIG.yaml`, choose either `--headless` or `--no-headless`, and only include the `--last24h` flag if you want to filter your results._
@@ -244,7 +244,7 @@ Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a fre
 4. Run the `scholarship_finder.py` script with the following command:
 
    ```bash
-   python3 scholarship_finder.py
+   uv run scholarship_finder.py
    ```
 
    By default, the maximum scholarships scraped is 5, the configuration file path is `scholarships_config.yaml`, and the program runs in headless mode.
@@ -252,7 +252,7 @@ Find **high-match scholarships** on [Going Merry](https://goingmerry.com) (a fre
    If you want to specify the maximum number of scholarships to scrape, the path to the YAML configuration file, and/or whether the program runs in headless mode, run the following command:
 
    ```bash
-   python3 scholarship_finder.py --max MAX_SCHOLARSHIPS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
+   uv run scholarship_finder.py --max MAX_SCHOLARSHIPS --config PATH/TO/CUSTOM_CONFIG.yaml --headless/--no-headless
    ```
 
    _**Note**: Replace `MAX_SCHOLARSHIPS` and `PATH/TO/CUSTOM_CONFIG.yaml`, and choose either `--headless` or `--no-headless`._
